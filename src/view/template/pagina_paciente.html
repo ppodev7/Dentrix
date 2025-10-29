@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página do Paciente</title>
+    <link rel="stylesheet" href="pagina_paciente.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>Saúde+ </h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#perfil">Perfil</a></li>
+                <li><a href="#consultas">Consultas Marcadas</a></li>
+                <li><a href="#agendamento">Agendar Consulta</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="perfil">
+        <h2>Perfil do Paciente</h2>
+        <div class="perfil-info">
+            <img src="perfil.jpg" alt="Foto do paciente" class="perfil-foto">
+            <div class="detalhes">
+                <p><strong>Nome:</strong> João da Silva</p>
+                <p><strong>Email:</strong> joao.silva@email.com</p>
+                <p><strong>Data de Nascimento:</strong> 15/05/1985</p>
+                <p><strong>Endereço:</strong> Rua das Flores, 123, São Paulo - SP</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="consultas">
+        <h2>Consultas Marcadas</h2>
+        <table>
+            <tr>
+                <th>Data</th>
+                <th>Hora</th>
+                <th>Especialidade</th>
+                <th>Profissional</th>
+                <th>Status</th>
+            </tr>
+            <tr>
+                <td>25/10/2025</td>
+                <td>14:00</td>
+                <td>Cardiologia</td>
+                <td>Dr. Carlos Pereira</td>
+                <td>Confirmada</td>
+            </tr>
+            <tr>
+                <td>30/10/2025</td>
+                <td>09:30</td>
+                <td>Dermatologia</td>
+                <td>Dr. Maria Silva</td>
+                <td>Pendente</td>
+            </tr>
+        </table>
+    </section>
+
+    <section id="agendamento">
+        <h2>Agendar Nova Consulta</h2>
+        <form action="#" method="POST">
+            <label for="especialidade">Escolha a Especialidade:</label>
+            <select id="especialidade" name="especialidade">
+                <option value="cardiologia">Cardiologia</option>

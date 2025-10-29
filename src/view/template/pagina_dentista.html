@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Painel do Dentista | Dentrix</title>
+  <link rel="stylesheet" href="dentista.css" />
+</head>
+<body>
+
+  <header class="dentista-header">
+  <div class="container">
+    <a href="#" class="logo">Dentrix</a>
+    <nav class="nav-links">
+      <ul>
+        <li><a href="index.html" class="sair">Sair</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+  <main class="dentista-main">
+
+    <!-- SAUDAÇÃO -->
+    <section class="boas-vindas" id="agenda">
+      <h2>Olá, Dr(a). Camila Ribeiro 👋</h2>
+      <p>Hoje você tem <strong>4</strong> consultas agendadas.</p>
+    </section>
+
+    <!-- DASHBOARD PRINCIPAL -->
+    <section class="dashboard">
+      <div class="card">
+        <h3>Consultas de Hoje</h3>
+        <ul>
+          <li>09:00 - João Silva</li>
+          <li>11:00 - Maria Oliveira</li>
+          <li>14:00 - Pedro Lima</li>
+          <li>16:00 - Ana Costa</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>Mensagens Recentes</h3>
+        <ul>
+          <li>📧 Maria Oliveira: "Pode remarcar?"</li>
+          <li>📧 Pedro Lima: "Esqueci minha carteirinha."</li>
+          <li>📧 Sistema: Novo agendamento confirmado.</li>
+        </ul>
+      </div>
+
+     <!-- ABA DE PACIENTES -->
+    <section class="card" id="pacientes">
+      <h2>Pacientes</h2>
+
+      <!-- 🔍 Barra de pesquisa -->
+  <input 
+    type="text" 
+    id="searchInput" 
+    placeholder="Buscar paciente..." 
+    onkeyup="filtrarPacientes()" 
+    class="search-bar"
+  />
+      <div class="pacientes-list">
+        <div class="paciente-card" onclick="abrirProntuario('João Silva')">
+          <h3>João Silva</h3>
+          <p>Última consulta: 10/10/2025</p>
+          <button onclick="window.location.href='prontuario_paciente.html'">Ver Prontuário</button>
+        </div>
+        <div class="paciente-card" onclick="abrirProntuario('Maria Oliveira')">
+          <h3>Maria Oliveira</h3>
+          <p>Última consulta: 15/10/2025</p>
+          <button>Ver Prontuário</button>
+        </div>
+        <div class="paciente-card" onclick="abrirProntuario('Pedro Lima')">
+          <h3>Pedro Lima</h3>
+          <p>Última consulta: 18/10/2025</p>
+          <button>Ver Prontuário</button>
+        </div>
+      </div>
+    </section>
+    
+
+  </main>
+
+  <footer class="dentista-footer">
+    <p>&copy; 2025 Dentrix. Todos os direitos reservados.</p>
+    <p><small>Este site é um projeto acadêmico fictício, criado por estudantes de desenvolvimento web.</small></p>
+  </footer>
+
+  <script src="dentista.js"></script>
+</body>
+</html>

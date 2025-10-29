@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Painel da Atendente | Dentrix</title>
+  <link rel="stylesheet" href="pagina_atendente.css" />
+</head>
+<body>
+
+  <header class="atendente-header">
+    <div class="container">
+      <a href="index.html" class="logo">Dentrix</a>
+      <nav class="nav-links">
+        <ul>
+          <li><a href="#consultas" class="nav-link">Consultas</a></li>
+          <li><a href="#pacientes" class="nav-link">Pacientes</a></li>
+          <li><a href="#config" class="nav-link">Configurações</a></li>
+          <li><a href="index.html" class="nav-link">Sair</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="atendente-main">
+
+    <!-- Seção de Consultas -->
+    <section id="consultas" class="card full-width">
+      <h2>Consultas Agendadas</h2>
+      <table id="tabelaConsultas">
+        <thead>
+          <tr>
+            <th>Data</th>
+            <th>Hora</th>
+            <th>Paciente</th>
+            <th>Dentista</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Consultas serão carregadas dinamicamente -->
+        </tbody>
+      </table>
+
+      <button id="btnNovaConsulta" onclick="abrirModal()">➕ Marcar Nova Consulta</button>
+    </section>
+
+    <!-- Seção de Pacientes -->
+    <section id="pacientes" class="card full-width">
+      <h2>Pacientes Cadastrados</h2>
+      <ul id="listaPacientes">
+        <li><strong>João Silva</strong> — 32 anos — (11) 91234-5678</li>
+        <li><strong>Maria Oliveira</strong> — 27 anos — (11) 99888-1122</li>
+        <li><strong>Pedro Lima</strong> — 45 anos — (11) 93456-9988</li>
+      </ul>
+    </section>
+
+    <!-- Modal para nova consulta -->
+    <div id="modalConsulta" class="modal">
+      <div class="modal-content">
+        <h3>Marcar / Editar Consulta</h3>
+        <form id="formConsulta" onsubmit="salvarConsulta(event)">
+          <label>Data:</label>
+          <input type="date" id="data" required />
+
+          <label>Hora:</label>
+          <input type="time" id="hora" required />
+
+          <label>Paciente:</label>
+          <input type="text" id="paciente" placeholder="Nome do paciente" required />
+
+          <label>Dentista responsável:</label>
+          <input type="text" id="dentista" placeholder="Dr(a). Nome" required />
+
+          <div class="modal-buttons">
+            <button type="submit">Salvar</button>
+            <button type="button" onclick="fecharModal()">Cancelar</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="atendente-footer">
+    <p>&copy; 2025 Dentrix. Todos os direitos reservados.</p>
+    <p><small>Este site é um projeto acadêmico fictício desenvolvido por estudantes.</small></p>
+  </footer>
+
+  <script src="pagina_atendente.js" defer></script>
+</body>
+</html>

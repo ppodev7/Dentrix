@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Perfil do Paciente | Dentrix</title>
+  <link rel="stylesheet" href="prontuario_paciente.css" />
+</head>
+<body>
+
+  <header class="paciente-header">
+    <a href="pagina_dentista.html" class="voltar">← Voltar</a>
+    <h1>Perfil do Paciente</h1>
+  </header>
+
+  <main class="perfil-container">
+
+    <section class="info-principal">
+      <div class="foto-paciente">
+        <img src="https://cdn-icons-png.flaticon.com/512/2922/2922506.png" alt="Foto do paciente">
+      </div>
+      <div class="dados-paciente">
+        <h2 id="nomePaciente">João Silva</h2>
+        <p><strong>Idade:</strong> 32 anos</p>
+        <p><strong>Plano odontológico:</strong> OdontoMais Premium</p>
+        <p><strong>Última consulta:</strong> 10/10/2025</p>
+        <p><strong>Próxima consulta:</strong> 05/11/2025</p>
+      </div>
+    </section>
+
+    <section class="info-clinica">
+      <h3>Informações Clínicas</h3>
+      <ul>
+        <li><strong>Condições conhecidas:</strong> Gengivite leve</li>
+        <li><strong>Alergias:</strong> Nenhuma relatada</li>
+        <li><strong>Medicações atuais:</strong> N/A</li>
+        <li><strong>Observações:</strong> Recomendado acompanhamento a cada 3 meses</li>
+      </ul>
+    </section>
+
+    <section class="prontuario-section">
+      <div class="cabecalho-prontuario">
+        <h3>Prontuário do Paciente</h3>
+        <button id="editarBtn" onclick="toggleEdicao()">✎ Editar</button>
+      </div>
+      <textarea id="textoProntuario" readonly placeholder="Ainda não há informações registradas..."></textarea>
+      <button id="salvarBtn" onclick="salvarProntuario()" style="display:none;">💾 Salvar Alterações</button>
+    </section>
+
+  </main>
+
+  <footer class="paciente-footer">
+    <p>&copy; 2025 Dentrix. Todos os direitos reservados.</p>
+    <p><small>Este site é um projeto acadêmico fictício desenvolvido por estudantes.</small></p>
+  </footer>
+
+  <script src="prontuario_paciente.js"></script>
+</body>
+</html>

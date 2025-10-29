@@ -1,0 +1,221 @@
+body {
+  font-family: "Poppins", sans-serif;
+  background: #f9f9f9;
+  margin: 0;
+  color: #333;
+}
+
+header {
+  background: #367ac4;
+  padding: 1rem 2rem;
+  color: white;
+  display: flex;
+  justify-content: center; /* centraliza o container */
+  align-items: center;
+}
+
+.dentista-header .container {
+  display: flex;
+  justify-content: space-between; /* logo esquerda / sair direita */
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* logo */
+.logo {
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+  font-size: 1.5rem;
+}
+
+/* nav existente */
+nav {
+  display: flex;
+  align-items: center;
+}
+
+/* mantém tuas regras originais */
+.nav-links ul {
+  align-content: center;
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+  text-align: right;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: opacity 0.3s;
+}
+
+.nav-links a:hover {
+  opacity: 0.8;
+}
+
+/* botão sair com leve destaque */
+.sair {
+  background-color: #e74c3c;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+}
+
+.sair:hover {
+  background-color: #c0392b;
+}
+
+.boas-vindas {
+  text-align: center;
+  padding: 2rem 7rem;
+  background: white;
+  margin: 2rem auto;
+  border-radius: 10px;
+  width: 80%;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+.dashboard {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 0;
+  margin: 0rem;
+}
+
+.card {
+  background: white;
+  padding: 5rem;
+  border: 0;
+  margin: 0rem;
+  border-radius: 10px;
+  width: 300px;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+.card h3 {
+  color: #4a90e2;
+}
+
+.pacientes-section {
+  margin: 3rem auto;
+  text-align: center;
+}
+
+.pacientes-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.paciente-card {
+  background: white;
+  width: 250px;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  transition: transform 0.3s;
+  cursor: pointer;
+}
+
+.paciente-card:hover {
+  transform: scale(1.05);
+}
+
+.paciente-card button {
+  margin-top: 1rem;
+  background: #4a90e2;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.paciente-card button:hover {
+  background: #367ac4;
+}
+
+.search-bar {
+  width: 100%;
+  max-width: 400px;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: 0.3s;
+}
+
+.search-bar:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 4px rgba(74,144,226,0.5);
+}
+
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 400px;
+  position: relative;
+}
+
+.modal-content textarea {
+  width: 100%;
+  height: 150px;
+  margin-top: 10px;
+  padding: 10px;
+  font-family: inherit;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  cursor: pointer;
+  font-size: 1.5rem;
+}
+
+.salvar-btn {
+  background: #4a90e2;
+  color: white;
+  border: none;
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.salvar-btn:hover {
+  background: #367ac4;
+}
+
+footer {
+  background: #f0f0f0;
+  text-align: center;
+  padding: 1rem;
+  margin-top: 3rem;
+  font-size: 0.9rem;
+}
