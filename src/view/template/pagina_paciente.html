@@ -1,68 +1,364 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página do Paciente</title>
-    <link rel="stylesheet" href="pagina_paciente.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página do Paciente | Saúde+</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #3182ce;
+      --secondary: #2b6cb0;
+      --bg: #f7fafc;
+      --card-bg: #fff;
+      --text: #2d3748;
+      --muted: #718096;
+      --radius: 18px;
+      --shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Poppins", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    header {
+      background: #fff;
+      box-shadow: var(--shadow);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 40px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo h1 {
+      color: var(--secondary);
+      font-weight: 700;
+      font-size: 26px;
+      margin: 0;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 30px;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      padding: 8px 14px;
+      border-radius: 10px;
+      transition: 0.2s;
+    }
+
+    nav a:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 20px;
+      display: grid;
+      gap: 40px;
+    }
+
+    /* ===== CARD BASE ===== */
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 25px 30px;
+      transition: 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+    }
+
+    h2 {
+      color: var(--secondary);
+      font-size: 22px;
+      margin-bottom: 18px;
+    }
+
+    /* ===== PERFIL ===== */
+    .perfil-info {
+      display: flex;
+      align-items: center;
+      gap: 25px;
+      flex-wrap: wrap;
+    }
+
+    .perfil-foto {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      box-shadow: var(--shadow);
+      border: 3px solid var(--primary);
+    }
+
+    .detalhes p {
+      margin: 6px 0;
+    }
+
+    .detalhes strong {
+      color: var(--secondary);
+    }
+
+    /* ===== CONSULTAS ===== */
+    .consultas-lista {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .consulta-card {
+      background: #f8fbff;
+      border-left: 5px solid var(--primary);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .consulta-card h4 {
+      margin: 0 0 8px;
+      color: var(--secondary);
+    }
+
+    .consulta-card p {
+      margin: 4px 0;
+      font-size: 15px;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .status.confirmada { background: #38a169; }
+    .status.pendente { background: #dd6b20; }
+
+    /* ===== AGENDAMENTO ===== */
+    form {
+      display: grid;
+      gap: 15px;
+    }
+
+    label {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    select, input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 15px;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    select:focus, input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(49,130,206,0.2);
+    }
+
+    button {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: var(--secondary);
+      transform: translateY(-1px);
+      box-shadow: 0 8px 16px rgba(49,130,206,0.3);
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
 </head>
 <body>
-    <header>
-        <div class="logo">
-            <h1>Saúde+ </h1>
-        </div>
-        <nav>
-            <ul>
-                <li><a href="#perfil">Perfil</a></li>
-                <li><a href="#consultas">Consultas Marcadas</a></li>
-                <li><a href="#agendamento">Agendar Consulta</a></li>
-            </ul>
-        </nav>
-    </header>
+  <header>
+    <div class="logo"><h1>Dentrix</h1></div>
+    <nav>
+      <ul>
+        <li><a href="#perfil">Perfil</a></li>
+        <li><a href="#consultas">Consultas</a></li>
+        <li><a href="#agendamento">Agendar</a></li>
+      </ul>
+    </nav>
+  </header>
 
-    <section id="perfil">
-        <h2>Perfil do Paciente</h2>
-        <div class="perfil-info">
-            <img src="perfil.jpg" alt="Foto do paciente" class="perfil-foto">
-            <div class="detalhes">
-                <p><strong>Nome:</strong> João da Silva</p>
-                <p><strong>Email:</strong> joao.silva@email.com</p>
-                <p><strong>Data de Nascimento:</strong> 15/05/1985</p>
-                <p><strong>Endereço:</strong> Rua das Flores, 123, São Paulo - SP</p>
-            </div>
+  <main>
+    <!-- PERFIL -->
+    <section id="perfil" class="card">
+      <h2>👤 Perfil do Paciente</h2>
+      <div class="perfil-info">
+        <img src="perfil.jpg" alt="Foto do paciente" class="perfil-foto">
+        <div class="detalhes">
+          <p><strong>Nome:</strong> João da Silva</p>
+          <p><strong>Email:</strong> joao.silva@email.com</p>
+          <p><strong>Data de Nascimento:</strong> 15/05/1985</p>
+          <p><strong>Endereço:</strong> Rua das Flores, 123, São Paulo - SP</p>
         </div>
+      </div>
     </section>
 
-    <section id="consultas">
-        <h2>Consultas Marcadas</h2>
-        <table>
-            <tr>
-                <th>Data</th>
-                <th>Hora</th>
-                <th>Especialidade</th>
-                <th>Profissional</th>
-                <th>Status</th>
-            </tr>
-            <tr>
-                <td>25/10/2025</td>
-                <td>14:00</td>
-                <td>Cardiologia</td>
-                <td>Dr. Carlos Pereira</td>
-                <td>Confirmada</td>
-            </tr>
-            <tr>
-                <td>30/10/2025</td>
-                <td>09:30</td>
-                <td>Dermatologia</td>
-                <td>Dr. Maria Silva</td>
-                <td>Pendente</td>
-            </tr>
-        </table>
+    <!-- CONSULTAS -->
+    <section id="consultas" class="card">
+      <h2>📅 Consultas Marcadas</h2>
+      <div class="consultas-lista">
+        <div class="consulta-card">
+          <h4>Cardiologia</h4>
+          <p><strong>Data:</strong> 25/10/2025</p>
+          <p><strong>Hora:</strong> 14:00</p>
+          <p><strong>Profissional:</strong> Dr. Carlos Pereira</p>
+          <span class="status confirmada">Confirmada</span>
+        </div>
+        <div class="consulta-card">
+          <h4>Dermatologia</h4>
+          <p><strong>Data:</strong> 30/10/2025</p>
+          <p><strong>Hora:</strong> 09:30</p>
+          <p><strong>Profissional:</strong> Dra. Maria Silva</p>
+          <span class="status pendente">Pendente</span>
+        </div>
+      </div>
     </section>
 
-    <section id="agendamento">
-        <h2>Agendar Nova Consulta</h2>
-        <form action="#" method="POST">
-            <label for="especialidade">Escolha a Especialidade:</label>
-            <select id="especialidade" name="especialidade">
-                <option value="cardiologia">Cardiologia</option>
+    <!-- AGENDAR -->
+    <section id="agendamento" class="card">
+        <h2>Agendar Consulta</h2>
+    <form id="form-agendamento">
+      <label for="data-consulta">📅 Escolha o dia:</label>
+      <input type="text" id="data-consulta" name="data-consulta" placeholder="Selecione a data" required>
+
+      <div class="horarios" id="horarios">
+        <label>⏰ Horários disponíveis:</label>
+        <div id="lista-horarios"></div>
+      </div>
+
+      <div class="dentistas" id="dentistas">
+        <label>🦷 Profissionais disponíveis:</label>
+        <div class="opcao">
+          <label>
+            <input type="radio" name="dentista" value="Camila Ribeiro" required>
+            <span></span>
+            <p>Dra. Camila</p>
+          </label>
+        </div>
+        <div class="opcao">
+          <label>
+            <input type="radio" name="dentista" value="Lucas Andrade" required>
+            <span></span>
+            <p>Dr. Lucas</p>
+          </label>
+        </div>
+        <div class="opcao">
+          <label>
+            <input type="radio" name="dentista" value="Renata Melo" required>
+            <span></span>
+            <p>Dra. Renata</p>
+          </label>
+        </div>
+      </div>
+
+      <button type="submit" class="submit">Confirmar Agendamento</button>
+    </form>
+     
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Saúde+ | Todos os direitos reservados</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
+
+  <script>
+    const horariosDiv = document.getElementById("horarios");
+    const listaHorarios = document.getElementById("lista-horarios");
+    const dentistasDiv = document.getElementById("dentistas");
+    const mensagem = document.getElementById("mensagem");
+
+    const horariosDisponiveis = ["09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00"];
+
+    flatpickr("#data-consulta", {
+      dateFormat: "d/m/Y",
+      minDate: "today",
+      locale: "pt",
+      disableMobile: true,
+      onChange: function() {
+        // Mostra os horários quando uma data é escolhida
+        horariosDiv.style.display = "block";
+        dentistasDiv.style.display = "none";
+        listaHorarios.innerHTML = "";
+
+        horariosDisponiveis.forEach(hora => {
+          const btn = document.createElement("button");
+          btn.textContent = hora;
+          btn.addEventListener("click", () => {
+            document.querySelectorAll(".horarios button").forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            dentistasDiv.style.display = "block";
+          });
+          listaHorarios.appendChild(btn);
+        });
+      }
+    });
+
+    document.getElementById("form-agendamento").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const data = document.getElementById("data-consulta").value;
+      const hora = document.querySelector(".horarios button.active")?.textContent;
+      const dentista = document.querySelector("input[name='dentista']:checked")?.value;
+
+      if (!hora) {
+        mensagem.style.display = "block";
+        mensagem.style.background = "#fff5e6";
+        mensagem.style.color = "#cc7a00";
+        mensagem.textContent = "⚠️ Selecione um horário antes de confirmar!";
+        return;
+      }
+
+      mensagem.style.display = "block";
+      mensagem.style.background = "#e6ffe6";
+      mensagem.style.color = "#007a00";
+      mensagem.textContent = `✅ Consulta agendada! 📅 ${data} ⏰ ${hora} 🦷 ${dentista}`;
+    });
+  </script>
+</body>
+</html>
