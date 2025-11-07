@@ -336,6 +336,7 @@
       <h2>📅 Consultas Marcadas</h2>
       <div class="consultas-lista">
         <div class="consulta-card">
+          <span class="status confirmada">Confirmada</span>
           <h4>Limpeza de Rotina</h4>
           <p><strong>Data:</strong> 25/10/2025</p>
           <p><strong>Hora:</strong> 14:00</p>
@@ -347,6 +348,7 @@
         </div>
         <div class="consulta-card">
           <h4>Avaliação de Implante</h4>
+          <span class="status pendente" style="float: right;">Pendente</span>
           <p><strong>Data:</strong> 30/10/2025</p>
           <p><strong>Hora:</strong> 09:30</p>
           <p><strong>Profissional:</strong> Dra. Maria Silva</p>
@@ -368,8 +370,8 @@
             <p><strong>Valor: R$ 150,00</strong></p>
           </div>
           <div class="pagamento-acoes">
-            <button class="btn-pix" onclick="abrirModalPagamento('pix')">Pagar com PIX</button>
-            <button class="btn-boleto" onclick="abrirModalPagamento('boleto')">Gerar Boleto</button>
+            <button class="btn-pix" onclick="abrirModalPagamento('pix', '150.00', '1')">Pagar com PIX</button>
+            <button class="btn-boleto" onclick="abrirModalPagamento('boleto', '150.00', '1')">Gerar Boleto</button>
           </div>
         </div>
         <div class="pagamento-card">
@@ -378,8 +380,8 @@
             <p><strong>Valor: R$ 250,00</strong></p>
           </div>
           <div class="pagamento-acoes">
-            <button class="btn-pix" onclick="abrirModalPagamento('pix')">Pagar com PIX</button>
-            <button class="btn-boleto" onclick="abrirModalPagamento('boleto')">Gerar Boleto</button>
+            <button class="btn-pix" onclick="abrirModalPagamento('pix', '250.00', '2')">Pagar com PIX</button>
+            <button class="btn-boleto" onclick="abrirModalPagamento('boleto', '2')">Gerar Boleto</button>
           </div>
         </div>
       </div>
@@ -444,6 +446,11 @@
         </div>
       </div>
 
+      <div id="preco-container" style="display: none; text-align: center; margin-top: 15px; padding: 15px; background: #f0f9ff; border-radius: 10px; border: 1px solid var(--accent);">
+        <h4 style="margin: 0 0 5px; color: var(--primary);">Valor da Consulta:</h4>
+        <p id="preco-valor" style="font-size: 1.8rem; font-weight: 700; color: var(--primary); margin: 0;"></p>
+      </div>
+
       <button type="submit" class="submit">Confirmar Agendamento</button>
 
       <p id="mensagem" style="display: none; text-align: center; padding: 10px; border-radius: 8px;"></p>
@@ -477,6 +484,16 @@
       const consultasListaDiv = document.querySelector('.consultas-lista');
       const pagamentosListaDiv = document.querySelector('.pagamentos-lista');
 
+      // Estrutura de preços por procedimento e dentista
+      const precos = {
+        'Limpeza': { 'Camila Ribeiro': 150.00, 'Lucas Andrade': 140.00, 'Renata Melo': 160.00 },
+        'Restauracao': { 'Camila Ribeiro': 250.00, 'Lucas Andrade': 230.00, 'Renata Melo': 260.00 },
+        'Clareamento': { 'Camila Ribeiro': 400.00, 'Lucas Andrade': 380.00, 'Renata Melo': 420.00 },
+        'Avaliacao': { 'Camila Ribeiro': 100.00, 'Lucas Andrade': 90.00, 'Renata Melo': 110.00 },
+        'Urgencia': { 'Camila Ribeiro': 300.00, 'Lucas Andrade': 280.00, 'Renata Melo': 320.00 },
+        'Outro': { 'Camila Ribeiro': 200.00, 'Lucas Andrade': 180.00, 'Renata Melo': 220.00 }
+      };
+
       // Carrega dados do localStorage
       let consultas = JSON.parse(localStorage.getItem('consultasPaciente')) || [];
       let pagamentos = JSON.parse(localStorage.getItem('pagamentosPaciente')) || [];
@@ -491,6 +508,7 @@
         onChange: function() {
           horariosDiv.style.display = "grid";
           dentistasDiv.style.display = "none";
+          document.getElementById("preco-container").style.display = "none"; // Esconde preço
           listaHorarios.innerHTML = "";
 
           horariosDisponiveis.forEach(hora => {
@@ -507,6 +525,27 @@
         }
       });
 
+      // Adiciona listener para os botões de rádio dos dentistas
+      document.querySelectorAll('input[name="dentista"]').forEach(radio => {
+        radio.addEventListener('change', () => {
+          const tipoConsulta = document.getElementById("tipo-consulta").value;
+          const dentistaSelecionado = document.querySelector('input[name="dentista"]:checked').value;
+          const precoContainer = document.getElementById("preco-container");
+          const precoValor = document.getElementById("preco-valor");
+
+          if (tipoConsulta && dentistaSelecionado && precos[tipoConsulta] && precos[tipoConsulta][dentistaSelecionado] !== undefined) {
+            const valor = precos[tipoConsulta][dentistaSelecionado];
+            precoValor.textContent = `R$ ${valor.toFixed(2).replace('.', ',')}`;
+            precoContainer.style.display = "block";
+          } else {
+            precoContainer.style.display = "none";
+          }
+        });
+      });
+
+      // Esconde o preço se o tipo de consulta mudar
+      document.getElementById("tipo-consulta").addEventListener('change', () => { document.getElementById("preco-container").style.display = "none"; });
+
       window.handleAgendamento = function(e) {
         e.preventDefault();
         const form = document.getElementById("form-agendamento");
@@ -516,23 +555,25 @@
         const dentista = document.querySelector("input[name='dentista']:checked")?.value;
         const urgenciaValue = document.getElementById("urgency-level").value;
 
-        if (!hora || !dentista) {
+        if (!tipo || !hora || !dentista) {
           mensagem.style.display = "block";
           mensagem.style.background = "#fed7d7";
           mensagem.style.color = "#c53030";
-          mensagem.textContent = "⚠️ Por favor, selecione data, horário e profissional.";
+          mensagem.textContent = "⚠️ Por favor, selecione todos os campos para agendar.";
           return;
         }
 
+        const valorConsulta = precos[tipo][dentista];
+
         const novaConsulta = {
           id: Date.now(),
-          tipo, data, hora, dentista, urgencia: urgenciaValue
+          tipo, data, hora, dentista, urgencia: urgenciaValue, valor: valorConsulta, status: 'pendente'
         };
 
         const novoPagamento = {
           consultaId: novaConsulta.id,
           descricao: `Consulta de ${tipo} - ${data}`,
-          valor: (Math.random() * (300 - 100) + 100).toFixed(2) // Valor aleatório entre 100 e 300
+          valor: valorConsulta.toFixed(2)
         };
 
         consultas.push(novaConsulta);
@@ -551,6 +592,7 @@
         form.reset();
         horariosDiv.style.display = "none";
         dentistasDiv.style.display = "none";
+        document.getElementById("preco-container").style.display = "none";
       }
 
       function renderizarConsultas() {
@@ -567,10 +609,15 @@
 
           const cardHtml = `
             <div class="consulta-card">
+              ${c.status === 'confirmada' 
+                ? '<span class="status confirmada">Confirmada</span>' 
+                : '<span class="status pendente" style="float: right;">Pendente</span>'
+              }
               <h4>${c.tipo}</h4>
               <p><strong>Data:</strong> ${c.data}</p>
               <p><strong>Hora:</strong> ${c.hora}</p>
               <p><strong>Profissional:</strong> ${c.dentista}</p>
+              ${c.status === 'confirmada' ? `<p><strong>Valor Pago:</strong> R$ ${c.valor.toFixed(2).replace('.', ',')}</p>` : ''}
               <div class="urgency-display">
                 <p>Nível de Urgência: ${urgenciaTexto}</p>
                 <div class="urgency-bar-bg"><div class="urgency-bar ${urgenciaClass}"></div></div>
@@ -595,8 +642,8 @@
                 <p><strong>Valor: R$ ${p.valor}</strong></p>
               </div>
               <div class="pagamento-acoes">
-                <button class="btn-pix" onclick="abrirModalPagamento('pix')">Pagar com PIX</button>
-                <button class="btn-boleto" onclick="abrirModalPagamento('boleto')">Gerar Boleto</button>
+            <button class="btn-pix" onclick="abrirModalPagamento('pix', '${p.valor}', '${p.consultaId}')">Pagar com PIX</button>
+            <button class="btn-boleto" onclick="abrirModalPagamento('boleto', '${p.valor}', '${p.consultaId}')">Gerar Boleto</button>
               </div>
             </div>
           `;
@@ -608,33 +655,54 @@
       const modalPagamento = document.getElementById("modalPagamento");
       const paymentContainer = document.getElementById('payment-container');
 
-      window.abrirModalPagamento = function(tipo) {
+      window.abrirModalPagamento = function(tipo, valor, consultaId) {
         if (tipo === 'pix') {
           paymentContainer.innerHTML = `
             <div class="payment-content">
-              <h3>Pagamento via PIX</h3>
+              <h3>Pagamento de R$ ${valor} via PIX</h3>
               <p>Aponte a câmera do seu celular para o QR Code</p>
               <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png" alt="QR Code" class="qr-code">
               <div class="payment-info-modal">
                 <p><strong>Ou use a chave PIX (Copia e Cola):</strong></p>
                 <p>99.123.456/0001-78 <button class="btn-copy" onclick="copiarTexto('99.123.456/0001-78')">Copiar</button></p>
               </div>
+              <button onclick="confirmarPagamento(${consultaId})" style="width: 100%; margin-top: 20px; background: var(--primary);">Pagamento Enviado</button>
             </div>
           `;
         } else if (tipo === 'boleto') {
           paymentContainer.innerHTML = `
             <div class="payment-content">
-              <h3>Pagamento via Boleto</h3>
+              <h3>Boleto de R$ ${valor}</h3>
               <p>Use o código de barras no seu app do banco</p>
               <div class="barcode">*123456789012345*</div>
               <div class="payment-info-modal">
                 <p><strong>Linha Digitável:</strong></p>
                 <p>12345.67890 12345.678901 23456.789012 3 12345678901234 <button class="btn-copy" onclick="copiarTexto('12345.67890 12345.678901 23456.789012 3 12345678901234')">Copiar</button></p>
               </div>
+              <button onclick="confirmarPagamento(${consultaId})" style="width: 100%; margin-top: 20px; background: var(--primary);">Pagamento Enviado</button>
             </div>
           `;
         }
         modalPagamento.style.display = "flex";
+      }
+
+      window.confirmarPagamento = function(consultaId) {
+        // Encontra a consulta e atualiza o status
+        const consultaIndex = consultas.findIndex(c => c.id == consultaId);
+        if (consultaIndex !== -1) {
+          consultas[consultaIndex].status = 'confirmada';
+        }
+
+        // Remove o pagamento da lista de pendentes
+        pagamentos = pagamentos.filter(p => p.consultaId != consultaId);
+
+        // Salva e renderiza novamente
+        localStorage.setItem('consultasPaciente', JSON.stringify(consultas));
+        localStorage.setItem('pagamentosPaciente', JSON.stringify(pagamentos));
+        renderizarConsultas();
+        renderizarPagamentos();
+        fecharModalPagamento();
+        alert('Pagamento confirmado com sucesso! Sua consulta está garantida.');
       }
 
       window.fecharModalPagamento = function() { modalPagamento.style.display = "none"; }
