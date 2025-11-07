@@ -4,7 +4,135 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Painel da Atendente | Dentrix</title>
-  <link rel="stylesheet" href="pagina_atendente.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2c5282;
+      --secondary: #3182ce;
+      --bg: #f7fafc;
+      --card-bg: #fff;
+      --text: #2d3748;
+      --muted: #718096;
+      --success: #38a169;
+      --warning: #dd6b20;
+      --radius: 16px;
+      --shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+    }
+
+    .container { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+
+    .atendente-header {
+      background: var(--card-bg);
+      box-shadow: var(--shadow);
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .atendente-header .container { display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-size: 24px; font-weight: 700; color: var(--primary); text-decoration: none; }
+    .nav-links { display: flex; gap: 15px; }
+    .nav-link { color: var(--text); text-decoration: none; font-weight: 500; padding: 8px 12px; border-radius: 8px; transition: all 0.3s; }
+    .nav-link:hover, .nav-link.active { background-color: var(--secondary); color: white; }
+    .nav-link.sair { background-color: var(--primary); color: white; }
+    .nav-link.sair:hover { background-color: #e53e3e; }
+
+    .atendente-main { padding: 40px 20px; display: grid; gap: 30px; }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 25px 30px;
+    }
+    .card h2 { color: var(--primary); margin-bottom: 20px; font-size: 22px; }
+
+    /* Tabela de Consultas */
+    #consultas { overflow-x: auto; }
+    .tabela-consultas { width: 100%; border-collapse: collapse; }
+    .tabela-consultas th, .tabela-consultas td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+    .tabela-consultas th { font-weight: 600; font-size: 14px; text-transform: uppercase; color: var(--muted); }
+    .tabela-consultas tbody tr:hover { background-color: #f8fbff; }
+    .status { display: inline-block; padding: 5px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; color: #fff; text-align: center; }
+    .status.agendada { background: var(--secondary); }
+    .status.hoje { background: var(--success); }
+    .status.realizada { background: var(--muted); }
+    .acoes button { background: none; border: none; cursor: pointer; font-size: 18px; margin: 0 5px; color: var(--muted); transition: color 0.3s; }
+    .acoes button:hover { color: var(--secondary); }
+    #btnNovaConsulta { background: var(--secondary); color: white; border: none; padding: 12px 20px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.3s; margin-top: 20px; }
+    #btnNovaConsulta:hover { background: var(--primary); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+
+    /* Grid de seções */
+    .grid-container {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 30px;
+    }
+
+    /* Pacientes */
+    .lista-pacientes { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+    .paciente-card { display: flex; align-items: center; gap: 15px; background: #f8fbff; padding: 15px; border-radius: 12px; border: 1px solid #e2e8f0; }
+    .paciente-avatar img { width: 50px; height: 50px; border-radius: 50%; object-fit: cover; }
+    .paciente-info strong { display: block; font-size: 16px; color: var(--text); }
+    .paciente-info span { font-size: 14px; color: var(--muted); }
+
+    /* Relatório Financeiro */
+    .relatorio-financeiro .summary { display: flex; justify-content: space-around; text-align: center; margin-bottom: 25px; }
+    .summary-item h3 { font-size: 24px; color: var(--primary); margin-bottom: 5px; }
+    .summary-item p { color: var(--muted); font-size: 14px; }
+    .relatorio-financeiro button { width: 100%; background: var(--success); color: white; border: none; padding: 12px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: background 0.3s; }
+    .relatorio-financeiro button:hover { background: #2f855a; }
+
+    /* Modal */
+    .modal {
+      display: none; position: fixed; z-index: 1000; left: 0; top: 0;
+      width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6);
+      justify-content: center; align-items: center;
+    }
+    .modal-content {
+      background: var(--card-bg); border-radius: var(--radius); padding: 30px 40px;
+      width: 90%; max-width: 500px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      animation: slide-down 0.4s ease-out;
+    }
+    @keyframes slide-down { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .modal-content h3 { color: var(--primary); text-align: center; margin-bottom: 25px; font-size: 24px; }
+    #formConsulta { display: grid; gap: 18px; }
+    #formConsulta label { font-weight: 600; font-size: 14px; color: var(--text); }
+    #formConsulta input {
+      width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 10px;
+      font-size: 15px; outline: none; transition: all 0.2s;
+    }
+    #formConsulta input:focus { border-color: var(--secondary); box-shadow: 0 0 0 3px rgba(49,130,206,0.2); }
+    .modal-buttons { display: flex; gap: 15px; margin-top: 20px; }
+    .modal-buttons button {
+      flex: 1; padding: 12px; border-radius: 10px; font-weight: 600;
+      cursor: pointer; transition: all 0.3s; border: none;
+    }
+    .modal-buttons button[type="submit"] { background: var(--secondary); color: white; }
+    .modal-buttons button[type="submit"]:hover { background: var(--primary); }
+    .modal-buttons button[type="button"] { background: #e2e8f0; color: var(--text); }
+    .modal-buttons button[type="button"]:hover { background: #cbd5e0; }
+
+    .atendente-footer { text-align: center; padding: 30px 20px; color: var(--muted); font-size: 14px; border-top: 1px solid #e2e8f0; margin-top: 40px; }
+
+    /* Responsividade */
+    @media (max-width: 992px) {
+      .grid-container { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 768px) {
+      .atendente-header .container { flex-direction: column; gap: 10px; }
+      .nav-links { flex-wrap: wrap; justify-content: center; }
+      .summary { flex-direction: column; gap: 20px; }
+    }
+  </style>
 </head>
 <body>
 
@@ -12,69 +140,134 @@
     <div class="container">
       <a href="index.html" class="logo">Dentrix</a>
       <nav class="nav-links">
-        <ul>
-          <li><a href="#consultas" class="nav-link">Consultas</a></li>
-          <li><a href="#pacientes" class="nav-link">Pacientes</a></li>
-          <li><a href="#config" class="nav-link">Configurações</a></li>
-          <li><a href="index.html" class="nav-link">Sair</a></li>
-        </ul>
+        <a href="index.html" class="nav-link sair">Sair</a>
       </nav>
     </div>
   </header>
 
-  <main class="atendente-main">
+  <main class="atendente-main container">
 
     <!-- Seção de Consultas -->
-    <section id="consultas" class="card full-width">
-      <h2>Consultas Agendadas</h2>
-      <table id="tabelaConsultas">
-        <thead>
-          <tr>
-            <th>Data</th>
-            <th>Hora</th>
-            <th>Paciente</th>
-            <th>Dentista</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Consultas serão carregadas dinamicamente -->
-        </tbody>
-      </table>
+    <section id="consultas" class="card">
+      <h2>📅 Consultas Agendadas</h2>
+      <div class="table-wrapper">
+        <table class="tabela-consultas">
+          <thead>
+            <tr>
+              <th>Paciente</th>
+              <th>Data</th>
+              <th>Hora</th>
+              <th>Dentista</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tabelaCorpo">
+            <!-- Exemplo estático -->
+            <tr>
+              <td>Ana Souza</td>
+              <td>2024-05-10</td>
+              <td>10:00</td>
+              <td>Dra. Camila</td>
+              <td><span class="status realizada">Realizada</span></td>
+              <td class="acoes">
+                <button title="Editar">✏️</button>
+                <button title="Excluir">🗑️</button>
+              </td>
+            </tr>
+            <tr>
+              <td>Carlos Lima</td>
+              <td>2025-11-15</td>
+              <td>11:30</td>
+              <td>Dr. Lucas</td>
+              <td><span class="status agendada">Agendada</span></td>
+              <td class="acoes">
+                <button title="Editar">✏️</button>
+                <button title="Excluir">🗑️</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
-      <button id="btnNovaConsulta" onclick="abrirModal()">➕ Marcar Nova Consulta</button>
+      <button id="btnNovaConsulta" onclick="abrirModal()">➕ Agendar Nova Consulta</button>
     </section>
 
-    <!-- Seção de Pacientes -->
-    <section id="pacientes" class="card full-width">
-      <h2>Pacientes Cadastrados</h2>
-      <ul id="listaPacientes">
-        <li><strong>João Silva</strong> — 32 anos — (11) 91234-5678</li>
-        <li><strong>Maria Oliveira</strong> — 27 anos — (11) 99888-1122</li>
-        <li><strong>Pedro Lima</strong> — 45 anos — (11) 93456-9988</li>
-      </ul>
-    </section>
+    <div class="grid-container">
+      <!-- Seção de Pacientes -->
+      <section id="pacientes" class="card">
+        <h2>👥 Pacientes Cadastrados</h2>
+        <div class="lista-pacientes">
+          <div class="paciente-card">
+            <div class="paciente-avatar"><img src="https://i.pravatar.cc/150?img=60" alt="Avatar"></div>
+            <div class="paciente-info">
+              <strong>João Silva</strong>
+              <span>(11) 91234-5678</span>
+            </div>
+          </div>
+          <div class="paciente-card">
+            <div class="paciente-avatar"><img src="https://i.pravatar.cc/150?img=33" alt="Avatar"></div>
+            <div class="paciente-info">
+              <strong>Maria Oliveira</strong>
+              <span>(11) 99888-1122</span>
+            </div>
+          </div>
+          <div class="paciente-card">
+            <div class="paciente-avatar"><img src="https://i.pravatar.cc/150?img=11" alt="Avatar"></div>
+            <div class="paciente-info">
+              <strong>Pedro Lima</strong>
+              <span>(11) 93456-9988</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Relatório Financeiro -->
+      <section id="relatorio" class="card relatorio-financeiro">
+        <h2>💰 Relatório Financeiro</h2>
+        <div class="summary">
+          <div class="summary-item">
+            <h3>R$ 7.850</h3>
+            <p>Faturamento (Mês)</p>
+          </div>
+          <div class="summary-item">
+            <h3>42</h3>
+            <p>Consultas Pagas</p>
+          </div>
+          <div class="summary-item">
+            <h3>8</h3>
+            <p>Pendentes</p>
+          </div>
+        </div>
+        <button>📊 Gerar Relatório Completo</button>
+      </section>
+    </div>
 
     <!-- Modal para nova consulta -->
     <div id="modalConsulta" class="modal">
       <div class="modal-content">
         <h3>Marcar / Editar Consulta</h3>
         <form id="formConsulta" onsubmit="salvarConsulta(event)">
-          <label>Data:</label>
-          <input type="date" id="data" required />
-
-          <label>Hora:</label>
-          <input type="time" id="hora" required />
-
-          <label>Paciente:</label>
-          <input type="text" id="paciente" placeholder="Nome do paciente" required />
-
-          <label>Dentista responsável:</label>
-          <input type="text" id="dentista" placeholder="Dr(a). Nome" required />
+          <div>
+            <label for="paciente">Paciente:</label>
+            <input type="text" id="paciente" placeholder="Nome do paciente" required />
+          </div>
+          <div>
+            <label for="data">Data:</label>
+            <input type="date" id="data" required />
+          </div>
+          <div>
+            <label for="hora">Hora:</label>
+            <input type="time" id="hora" required />
+          </div>
+          <div>
+            <label for="dentista">Dentista responsável:</label>
+            <input type="text" id="dentista" placeholder="Dr(a). Nome" required />
+          </div>
 
           <div class="modal-buttons">
-            <button type="submit">Salvar</button>
             <button type="button" onclick="fecharModal()">Cancelar</button>
+            <button type="submit">Salvar Agendamento</button>
           </div>
         </form>
       </div>
@@ -84,7 +277,7 @@
 
   <footer class="atendente-footer">
     <p>&copy; 2025 Dentrix. Todos os direitos reservados.</p>
-    <p><small>Este site é um projeto acadêmico fictício desenvolvido por estudantes.</small></p>
+    <p><small>Este é um projeto acadêmico fictício.</small></p>
   </footer>
 
   <script src="pagina_atendente.js" defer></script>

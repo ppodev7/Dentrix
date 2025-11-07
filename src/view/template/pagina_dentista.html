@@ -4,7 +4,95 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Painel do Dentista | Dentrix</title>
-  <link rel="stylesheet" href="dentista.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2c5282; /* Azul escuro */
+      --secondary: #3182ce; /* Azul médio */
+      --bg: #f7fafc;
+      --card-bg: #fff;
+      --text: #2d3748;
+      --muted: #718096;
+      --radius: 16px;
+      --shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+    .dentista-header {
+      background: var(--card-bg);
+      box-shadow: var(--shadow);
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .dentista-header .container { display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-size: 24px; font-weight: 700; color: var(--primary); text-decoration: none; }
+    .sair { background-color: var(--primary); color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; transition: background-color 0.3s; }
+    .sair:hover { background-color: var(--secondary); }
+
+    .dentista-main { padding: 40px 20px; }
+
+    .boas-vindas { text-align: center; margin-bottom: 40px; }
+    .boas-vindas h2 { font-size: 28px; font-weight: 600; color: var(--primary); }
+    .boas-vindas p { font-size: 18px; color: var(--muted); }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-bottom: 40px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 25px 30px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12); }
+    .card h2, .card h3 { color: var(--primary); margin-bottom: 20px; font-size: 22px; }
+    .card ul { list-style: none; }
+    .card li { padding: 10px 0; border-bottom: 1px solid #e2e8f0; font-size: 15px; }
+    .card li:last-child { border-bottom: none; }
+
+    #pacientes { grid-column: 1 / -1; } /* Ocupa a largura toda */
+    .search-bar {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 16px;
+      margin-bottom: 20px;
+      transition: border-color 0.3s;
+    }
+    .search-bar:focus { border-color: var(--secondary); outline: none; }
+
+    .pacientes-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
+    .paciente-card {
+      background: #f8fbff;
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+      text-align: center;
+    }
+    .paciente-card h3 { font-size: 18px; color: var(--text); margin-bottom: 8px; }
+    .paciente-card p { font-size: 14px; color: var(--muted); margin-bottom: 15px; }
+    .paciente-card button { background: var(--secondary); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; transition: background-color 0.3s; }
+    .paciente-card button:hover { background: var(--primary); }
+
+    .dentista-footer { text-align: center; padding: 30px 20px; color: var(--muted); font-size: 14px; border-top: 1px solid #e2e8f0; margin-top: 40px; }
+  </style>
 </head>
 <body>
 
@@ -12,9 +100,7 @@
   <div class="container">
     <a href="#" class="logo">Dentrix</a>
     <nav class="nav-links">
-      <ul>
-        <li><a href="index.html" class="sair">Sair</a></li>
-      </ul>
+      <a href="index.html" class="sair">Sair</a>
     </nav>
   </div>
 </header>
@@ -23,14 +109,14 @@
 
     <!-- SAUDAÇÃO -->
     <section class="boas-vindas" id="agenda">
-      <h2>Olá, Dr(a). Camila Ribeiro 👋</h2>
+      <h2>Olá, Dr(a). Camila Ribeiro! 👋</h2>
       <p>Hoje você tem <strong>4</strong> consultas agendadas.</p>
     </section>
 
     <!-- DASHBOARD PRINCIPAL -->
-    <section class="dashboard">
+    <div class="dashboard">
       <div class="card">
-        <h3>Consultas de Hoje</h3>
+        <h3>📅 Consultas de Hoje</h3>
         <ul>
           <li>09:00 - João Silva</li>
           <li>11:00 - Maria Oliveira</li>
@@ -40,38 +126,39 @@
       </div>
 
       <div class="card">
-        <h3>Mensagens Recentes</h3>
+        <h3>📧 Mensagens Recentes</h3>
         <ul>
-          <li>📧 Maria Oliveira: "Pode remarcar?"</li>
-          <li>📧 Pedro Lima: "Esqueci minha carteirinha."</li>
-          <li>📧 Sistema: Novo agendamento confirmado.</li>
+          <li>Maria Oliveira: "Pode remarcar?"</li>
+          <li>Pedro Lima: "Esqueci minha carteirinha."</li>
+          <li>Sistema: Novo agendamento confirmado.</li>
         </ul>
       </div>
+    </div>
 
      <!-- ABA DE PACIENTES -->
     <section class="card" id="pacientes">
-      <h2>Pacientes</h2>
+      <h2>👥 Pacientes</h2>
 
       <!-- 🔍 Barra de pesquisa -->
-  <input 
-    type="text" 
-    id="searchInput" 
-    placeholder="Buscar paciente..." 
-    onkeyup="filtrarPacientes()" 
-    class="search-bar"
-  />
+      <input 
+        type="text" 
+        id="searchInput" 
+        placeholder="Buscar paciente por nome..." 
+        onkeyup="filtrarPacientes()" 
+        class="search-bar"
+      />
       <div class="pacientes-list">
-        <div class="paciente-card" onclick="abrirProntuario('João Silva')">
+        <div class="paciente-card">
           <h3>João Silva</h3>
           <p>Última consulta: 10/10/2025</p>
           <button onclick="window.location.href='prontuario_paciente.html'">Ver Prontuário</button>
         </div>
-        <div class="paciente-card" onclick="abrirProntuario('Maria Oliveira')">
+        <div class="paciente-card">
           <h3>Maria Oliveira</h3>
           <p>Última consulta: 15/10/2025</p>
           <button>Ver Prontuário</button>
         </div>
-        <div class="paciente-card" onclick="abrirProntuario('Pedro Lima')">
+        <div class="paciente-card">
           <h3>Pedro Lima</h3>
           <p>Última consulta: 18/10/2025</p>
           <button>Ver Prontuário</button>
@@ -79,12 +166,11 @@
       </div>
     </section>
     
-
   </main>
 
   <footer class="dentista-footer">
-    <p>&copy; 2025 Dentrix. Todos os direitos reservados.</p>
-    <p><small>Este site é um projeto acadêmico fictício, criado por estudantes de desenvolvimento web.</small></p>
+    <p>&copy; 2025 Dentrix. Todos os direitos reservados.</p><br>
+    <p><small>Este é um projeto acadêmico fictício.</small></p>
   </footer>
 
   <script src="dentista.js"></script>
