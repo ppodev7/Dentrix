@@ -634,6 +634,203 @@
       display: block;
       animation: fadeIn 0.3s ease;
     }
+
+    .dias-disponiveis-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .dia-checkbox-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: white;
+      font-weight: 500;
+    }
+
+    .dia-checkbox-label:hover {
+      border-color: var(--secondary);
+      background: #f0f7ff;
+    }
+
+    .dia-checkbox {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      margin: 0;
+    }
+
+    .dia-checkbox:checked + span {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .dia-checkbox-label:has(.dia-checkbox:checked),
+    .dia-checkbox-label input:checked ~ span {
+      border-color: var(--secondary);
+      background: #e6f2ff;
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    /* Modal de Pagamento */
+    .pagamento-modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1001;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .pagamento-modal-overlay.active {
+      display: flex;
+    }
+
+    .pagamento-modal {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 500px;
+      width: 90%;
+      padding: 30px;
+      position: relative;
+      animation: slideUp 0.3s ease;
+    }
+
+    .pagamento-modal-header {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .pagamento-modal-header h2 {
+      color: var(--primary);
+      font-size: 24px;
+      margin: 0 0 10px 0;
+    }
+
+    .pagamento-modal-header p {
+      color: var(--muted);
+      font-size: 15px;
+      margin: 0;
+    }
+
+    .pagamento-valor {
+      text-align: center;
+      margin: 25px 0;
+      padding: 20px;
+      background: #f0f7ff;
+      border-radius: 10px;
+    }
+
+    .pagamento-valor-label {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
+    .pagamento-valor-valor {
+      color: var(--primary);
+      font-size: 32px;
+      font-weight: 700;
+    }
+
+    .pagamento-opcoes {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 25px;
+    }
+
+    .pagamento-opcao {
+      display: flex;
+      align-items: center;
+      padding: 18px;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: white;
+    }
+
+    .pagamento-opcao:hover {
+      border-color: var(--secondary);
+      background: #f0f7ff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(49,130,206,0.15);
+    }
+
+    .pagamento-opcao.selected {
+      border-color: var(--secondary);
+      background: #e6f2ff;
+    }
+
+    .pagamento-opcao-icon {
+      font-size: 32px;
+      margin-right: 15px;
+    }
+
+    .pagamento-opcao-info {
+      flex: 1;
+    }
+
+    .pagamento-opcao-info h3 {
+      margin: 0 0 5px 0;
+      color: var(--text);
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .pagamento-opcao-info p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .pagamento-opcao input[type="radio"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+
+    .btn-pagamento-confirmar {
+      width: 100%;
+      padding: 14px;
+      background: var(--secondary);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 20px;
+    }
+
+    .btn-pagamento-confirmar:hover {
+      background: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(49,130,206,0.3);
+    }
+
+    .btn-pagamento-confirmar:disabled {
+      background: #cbd5e0;
+      cursor: not-allowed;
+      transform: none;
+    }
   </style>
 </head>
 <body>
@@ -781,6 +978,38 @@
           </select>
         </div>
 
+        <!-- Pergunta 3.5: Dias Disponíveis -->
+        <div class="quiz-form-group">
+          <label for="quizDiasDisponiveis">📅 Quais dias você está disponível para a consulta?</label>
+          <div class="dias-disponiveis-grid">
+            <label class="dia-checkbox-label">
+              <input type="checkbox" name="diasDisponiveis" value="Segunda-feira" class="dia-checkbox" onchange="atualizarEstiloCheckbox(this)">
+              <span>Segunda</span>
+            </label>
+            <label class="dia-checkbox-label">
+              <input type="checkbox" name="diasDisponiveis" value="Terça-feira" class="dia-checkbox" onchange="atualizarEstiloCheckbox(this)">
+              <span>Terça</span>
+            </label>
+            <label class="dia-checkbox-label">
+              <input type="checkbox" name="diasDisponiveis" value="Quarta-feira" class="dia-checkbox" onchange="atualizarEstiloCheckbox(this)">
+              <span>Quarta</span>
+            </label>
+            <label class="dia-checkbox-label">
+              <input type="checkbox" name="diasDisponiveis" value="Quinta-feira" class="dia-checkbox" onchange="atualizarEstiloCheckbox(this)">
+              <span>Quinta</span>
+            </label>
+            <label class="dia-checkbox-label">
+              <input type="checkbox" name="diasDisponiveis" value="Sexta-feira" class="dia-checkbox" onchange="atualizarEstiloCheckbox(this)">
+              <span>Sexta</span>
+            </label>
+            <label class="dia-checkbox-label">
+              <input type="checkbox" name="diasDisponiveis" value="Sábado" class="dia-checkbox" onchange="atualizarEstiloCheckbox(this)">
+              <span>Sábado</span>
+            </label>
+          </div>
+          <p style="font-size: 12px; color: var(--muted); margin-top: 8px;">Selecione pelo menos um dia</p>
+        </div>
+
         <!-- Pergunta 4: Nível de Urgência -->
         <div class="quiz-form-group">
           <label for="quizNivelUrgencia">🚨 Qual o nível de urgência?</label>
@@ -831,8 +1060,64 @@
     </div>
   </div>
 
+  <!-- Modal de Pagamento -->
+  <div class="pagamento-modal-overlay" id="pagamentoModal">
+    <div class="pagamento-modal">
+      <div class="pagamento-modal-header">
+        <h2>💳 Realizar Pagamento</h2>
+        <p>Escolha a forma de pagamento para sua consulta</p>
+      </div>
+      
+      <div class="pagamento-valor">
+        <div class="pagamento-valor-label">Valor da Consulta</div>
+        <div class="pagamento-valor-valor" id="pagamentoValor">R$ 250,00</div>
+      </div>
+
+      <form id="pagamentoForm">
+        <div class="pagamento-opcoes">
+          <label class="pagamento-opcao" onclick="selecionarPagamento(this, 'pix')">
+            <span class="pagamento-opcao-icon">📱</span>
+            <div class="pagamento-opcao-info">
+              <h3>PIX</h3>
+              <p>Pagamento instantâneo e seguro</p>
+            </div>
+            <input type="radio" name="metodoPagamento" value="pix" required>
+          </label>
+
+          <label class="pagamento-opcao" onclick="selecionarPagamento(this, 'boleto')">
+            <span class="pagamento-opcao-icon">🧾</span>
+            <div class="pagamento-opcao-info">
+              <h3>Boleto Bancário</h3>
+              <p>Vencimento em até 3 dias úteis</p>
+            </div>
+            <input type="radio" name="metodoPagamento" value="boleto" required>
+          </label>
+        </div>
+
+        <button type="submit" class="btn-pagamento-confirmar" id="btnConfirmarPagamento" disabled>
+          Confirmar Pagamento
+        </button>
+      </form>
+    </div>
+  </div>
+
   <script>
     // Funções do Quiz
+    function atualizarEstiloCheckbox(checkbox) {
+      const label = checkbox.closest('.dia-checkbox-label');
+      if (checkbox.checked) {
+        label.style.borderColor = 'var(--secondary)';
+        label.style.background = '#e6f2ff';
+        label.style.color = 'var(--primary)';
+        label.style.fontWeight = '600';
+      } else {
+        label.style.borderColor = '#e2e8f0';
+        label.style.background = 'white';
+        label.style.color = 'var(--text)';
+        label.style.fontWeight = '500';
+      }
+    }
+
     function selectRadio(element, name, value) {
       // Remove seleção de todos os radio buttons do mesmo grupo
       const radioGroup = document.querySelectorAll(`input[name="${name}"]`);
@@ -882,10 +1167,19 @@
       event.preventDefault();
       
       const formData = new FormData(event.target);
+      const diasDisponiveis = formData.getAll('diasDisponiveis');
+      
+      if (diasDisponiveis.length === 0) {
+        alert('Por favor, selecione pelo menos um dia disponível.');
+        event.preventDefault();
+        return;
+      }
+      
       const quizData = {
         remedioControlado: formData.get('remedioControlado'),
         tipoTratamento: formData.get('tipoTratamento'),
         horarioDisponivel: formData.get('horarioDisponivel'),
+        diasDisponiveis: diasDisponiveis,
         nivelUrgencia: parseInt(formData.get('nivelUrgencia')),
         temDor: formData.get('temDor'),
         tempoDor: formData.get('tempoDor') || null,
@@ -896,21 +1190,120 @@
       localStorage.setItem('quizPaciente', JSON.stringify(quizData));
       localStorage.setItem('quizRespondido', 'true');
       
-      // Fecha o modal
+      // Fecha o modal do quiz
       document.getElementById('quizModal').classList.remove('active');
       
-      // Mostra mensagem de sucesso
-      alert('✅ Obrigado! Suas respostas foram salvas com sucesso.');
+      // Mostra o modal de pagamento após um pequeno delay
+      setTimeout(() => {
+        document.getElementById('pagamentoModal').classList.add('active');
+      }, 300);
     }
 
-    function verificarQuiz() {
-      const quizRespondido = localStorage.getItem('quizRespondido');
+    function selecionarPagamento(element, metodo) {
+      // Remove seleção de todas as opções
+      document.querySelectorAll('.pagamento-opcao').forEach(opcao => {
+        opcao.classList.remove('selected');
+        const radio = opcao.querySelector('input[type="radio"]');
+        if (radio) {
+          radio.checked = false;
+        }
+      });
       
-      // Se o quiz ainda não foi respondido, mostra o modal
-      if (!quizRespondido || quizRespondido !== 'true') {
-        document.getElementById('quizModal').classList.add('active');
+      // Seleciona a opção clicada
+      element.classList.add('selected');
+      const radio = element.querySelector(`input[value="${metodo}"]`);
+      if (radio) {
+        radio.checked = true;
       }
+      
+      // Habilita o botão de confirmar
+      document.getElementById('btnConfirmarPagamento').disabled = false;
     }
+
+    // Handler do formulário de pagamento
+    document.getElementById('pagamentoForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      const formData = new FormData(event.target);
+      const metodoPagamento = formData.get('metodoPagamento');
+      
+      if (!metodoPagamento) {
+        alert('Por favor, selecione uma forma de pagamento.');
+        return;
+      }
+      
+      // Simula o processamento do pagamento
+      if (metodoPagamento === 'pix') {
+        // Gera código PIX simulado
+        const codigoPix = '00020126360014BR.GOV.BCB.PIX0114+55119999999995204000053039865802BR5913DENTRIX CLINIC6009SAO PAULO62070503***6304' + Math.random().toString(36).substr(2, 4).toUpperCase();
+        
+        // Copia para área de transferência (se possível)
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(codigoPix).then(() => {
+            alert('✅ Código PIX copiado para a área de transferência!\n\n' + 
+                  'Código: ' + codigoPix + '\n\n' +
+                  'Abra o app do seu banco e cole o código para realizar o pagamento.');
+          }).catch(() => {
+            alert('✅ Código PIX gerado!\n\n' + codigoPix + '\n\n' +
+                  'Copie este código e use no app do seu banco para realizar o pagamento.');
+          });
+        } else {
+          alert('✅ Código PIX gerado!\n\n' + codigoPix + '\n\n' +
+                'Copie este código e use no app do seu banco para realizar o pagamento.');
+        }
+      } else if (metodoPagamento === 'boleto') {
+        // Gera código de barras simulado
+        const codigoBarras = '34191' + Math.random().toString().substr(2, 5) + 
+                           '0' + Math.random().toString().substr(2, 10) + 
+                           Math.random().toString().substr(2, 10) + 
+                           Math.random().toString().substr(2, 1);
+        
+        alert('✅ Boleto gerado com sucesso!\n\n' +
+              'Código de barras: ' + codigoBarras + '\n\n' +
+              'O boleto vence em 3 dias úteis. Você pode pagar em qualquer banco ou lotérica.');
+      }
+      
+      // Salva informação do pagamento
+      const pagamentoData = {
+        metodo: metodoPagamento,
+        valor: 250.00,
+        data: new Date().toISOString(),
+        status: metodoPagamento === 'pix' ? 'pendente' : 'aguardando'
+      };
+      
+      const pagamentos = JSON.parse(localStorage.getItem('pagamentosPaciente')) || [];
+      pagamentos.push(pagamentoData);
+      localStorage.setItem('pagamentosPaciente', JSON.stringify(pagamentoData));
+      
+      // Fecha o modal de pagamento
+      document.getElementById('pagamentoModal').classList.remove('active');
+      
+      // Mostra mensagem de sucesso
+      setTimeout(() => {
+        alert('✅ Processo de pagamento iniciado! Verifique as instruções acima.');
+        // Recarrega a página para atualizar a lista de pagamentos
+        window.location.reload();
+      }, 100);
+    });
+
+    function verificarQuiz() {
+      // Sempre mostra o quiz quando o paciente entra na página
+      document.getElementById('quizModal').classList.add('active');
+    }
+
+    // Fechar modal de pagamento ao clicar fora dele
+    document.getElementById('pagamentoModal').addEventListener('click', function(event) {
+      if (event.target === this) {
+        this.classList.remove('active');
+      }
+    });
+
+    // Fechar modal do quiz ao clicar fora dele
+    document.getElementById('quizModal').addEventListener('click', function(event) {
+      if (event.target === this) {
+        this.classList.remove('active');
+      }
+    });
 
     // Verifica e mostra o quiz quando a página carregar
     document.addEventListener('DOMContentLoaded', function() {

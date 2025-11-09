@@ -9,12 +9,18 @@
     :root {
       --primary: #2c5282; /* Azul escuro */
       --secondary: #3182ce; /* Azul médio */
+      --accent: #4299e1; /* Azul claro */
       --bg: #f7fafc;
       --card-bg: #fff;
       --text: #2d3748;
       --muted: #718096;
       --radius: 16px;
       --shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -67,29 +73,164 @@
     .card li:last-child { border-bottom: none; }
 
     #pacientes { grid-column: 1 / -1; } /* Ocupa a largura toda */
+    
+    /* Barra de Pesquisa Moderna */
+    .search-container {
+      position: relative;
+      margin-bottom: 24px;
+    }
     .search-bar {
       width: 100%;
-      padding: 12px 15px;
-      border: 2px solid #e2e8f0;
-      border-radius: 10px;
-      font-size: 16px;
-      margin-bottom: 20px;
-      transition: border-color 0.3s;
-    }
-    .search-bar:focus { border-color: var(--secondary); outline: none; }
-
-    .pacientes-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-    .paciente-card {
-      background: #f8fbff;
-      padding: 20px;
+      padding: 14px 20px 14px 48px;
+      border: 1.5px solid #e2e8f0;
       border-radius: 12px;
-      border: 1px solid #e2e8f0;
-      text-align: center;
+      font-size: 15px;
+      background: white;
+      transition: all 0.3s ease;
+      font-family: inherit;
     }
-    .paciente-card h3 { font-size: 18px; color: var(--text); margin-bottom: 8px; }
-    .paciente-card p { font-size: 14px; color: var(--muted); margin-bottom: 15px; }
-    .paciente-card button { background: var(--secondary); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; transition: background-color 0.3s; }
-    .paciente-card button:hover { background: var(--primary); }
+    .search-bar:focus { 
+      border-color: var(--secondary); 
+      outline: none;
+      box-shadow: 0 0 0 4px rgba(49,130,206,0.1);
+    }
+    .search-bar::placeholder {
+      color: #a0aec0;
+    }
+    .search-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #a0aec0;
+      font-size: 18px;
+      pointer-events: none;
+    }
+
+    /* Cards de Pacientes Modernos */
+    .pacientes-list { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+      gap: 20px; 
+    }
+    
+    .paciente-card {
+      background: white;
+      padding: 24px;
+      border-radius: 16px;
+      border: 1px solid #f0f4f8;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .paciente-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--secondary), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    
+    .paciente-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+      border-color: var(--secondary);
+    }
+    
+    .paciente-card:hover::before {
+      opacity: 1;
+    }
+    
+    .paciente-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    
+    .paciente-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--secondary), var(--accent));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+      font-weight: 600;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(49,130,206,0.2);
+    }
+    
+    .paciente-info {
+      flex: 1;
+      min-width: 0;
+    }
+    
+    .paciente-card h3 { 
+      font-size: 18px; 
+      color: var(--text); 
+      margin: 0 0 4px 0;
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .paciente-card .paciente-meta { 
+      font-size: 13px; 
+      color: var(--muted); 
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .paciente-card .paciente-meta svg {
+      width: 14px;
+      height: 14px;
+    }
+    
+    .paciente-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid #f0f4f8;
+    }
+    
+    .paciente-card .btn-prontuario { 
+      flex: 1;
+      background: transparent; 
+      color: var(--secondary); 
+      border: 1.5px solid var(--secondary);
+      padding: 10px 16px; 
+      border-radius: 8px; 
+      cursor: pointer; 
+      transition: all 0.3s ease;
+      font-weight: 500;
+      font-size: 14px;
+    }
+    
+    .paciente-card .btn-prontuario:hover { 
+      background: var(--secondary);
+      color: white;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(49,130,206,0.2);
+    }
+    
+    .paciente-card .quiz-badge {
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid #f0f4f8;
+    }
 
     .dentista-footer { text-align: center; padding: 30px 20px; color: var(--muted); font-size: 14px; border-top: 1px solid #e2e8f0; margin-top: 40px; }
 
@@ -325,50 +466,61 @@
       font-weight: 600;
     }
 
-    /* Estilos para o Quiz do Paciente */
+    /* Estilos para o Quiz do Paciente - Moderno e Minimalista */
     .quiz-info-section {
-      background: #f0f7ff;
-      border-left: 4px solid var(--secondary);
-      padding: 20px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      margin-top: 20px;
+      background: linear-gradient(135deg, #f8fbff 0%, #ffffff 100%);
+      border: 1px solid #e8f2ff;
+      padding: 24px;
+      border-radius: 16px;
+      margin-bottom: 24px;
+      margin-top: 24px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     }
 
     .quiz-info-section h4 {
       color: var(--primary);
-      font-size: 18px;
-      margin-bottom: 15px;
+      font-size: 20px;
+      margin: 0 0 20px 0;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+      font-weight: 600;
     }
 
     .quiz-info-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 15px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
     }
 
     .quiz-info-item {
       background: white;
-      padding: 12px;
-      border-radius: 8px;
-      border: 1px solid #e2e8f0;
+      padding: 16px;
+      border-radius: 12px;
+      border: 1px solid #f0f4f8;
+      transition: all 0.2s ease;
+    }
+    
+    .quiz-info-item:hover {
+      border-color: #e2e8f0;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
     }
 
     .quiz-info-item strong {
-      color: var(--primary);
+      color: var(--muted);
       display: block;
-      margin-bottom: 5px;
-      font-size: 13px;
+      margin-bottom: 8px;
+      font-size: 11px;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
+      font-weight: 600;
     }
 
     .quiz-info-item span {
       color: var(--text);
       font-size: 15px;
+      font-weight: 500;
+      display: block;
     }
 
     .quiz-urgency-badge {
@@ -407,23 +559,61 @@
     .quiz-urgency-bar-fill.emergencia { width: 100%; background: linear-gradient(90deg, #e53e3e, #c53030); }
 
     .paciente-card .quiz-badge {
-      display: inline-block;
-      padding: 4px 10px;
-      border-radius: 12px;
-      font-size: 11px;
-      font-weight: 600;
-      margin-top: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      width: 100%;
+      justify-content: center;
     }
 
     .paciente-card .quiz-badge.quiz-respondido {
-      background: #c6f6d5;
-      color: #22543d;
+      background: #f0fdf4;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+
+    /* Responsividade Melhorada */
+    @media (max-width: 1024px) {
+      .pacientes-list { 
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
+      }
     }
 
     @media (max-width: 768px) {
       .form-row { grid-template-columns: 1fr; }
       .acoes-rapidas { grid-template-columns: 1fr; }
       .quiz-info-grid { grid-template-columns: 1fr; }
+      .pacientes-list { 
+        grid-template-columns: 1fr; 
+      }
+      .paciente-header {
+        flex-direction: column;
+        text-align: center;
+      }
+      .paciente-info {
+        text-align: center;
+      }
+      .quiz-info-section {
+        padding: 20px;
+      }
+      .search-bar {
+        padding: 12px 16px 12px 44px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .paciente-card {
+        padding: 20px;
+      }
+      .paciente-avatar {
+        width: 48px;
+        height: 48px;
+        font-size: 20px;
+      }
     }
   </style>
 </head>
@@ -453,6 +643,8 @@
       <button class="btn-acao" onclick="abrirModal('modalRelatorio')">📊 Gerar Relatório</button>
       <button class="btn-acao" onclick="abrirModal('modalReceita')">💊 Emitir Receita</button>
       <button class="btn-acao" onclick="abrirModal('modalExame')">🔬 Solicitar Exame</button>
+      <button class="btn-acao" onclick="abrirModal('modalAgenda')">📅 Gerenciar Agenda</button>
+      <button class="btn-acao" onclick="abrirModal('modalChat')">💬 Chat com Recepcionista</button>
     </div>
 
     <!-- DASHBOARD PRINCIPAL -->
@@ -479,34 +671,86 @@
 
      <!-- ABA DE PACIENTES -->
     <section class="card" id="pacientes">
-      <h2>👥 Pacientes</h2>
+      <h2 style="margin-bottom: 24px;">👥 Pacientes</h2>
 
-      <!-- 🔍 Barra de pesquisa -->
-      <input 
-        type="text" 
-        id="searchInput" 
-        placeholder="Buscar paciente por nome..." 
-        onkeyup="filtrarPacientes()" 
-        class="search-bar"
-      />
+      <!-- 🔍 Barra de pesquisa moderna -->
+      <div class="search-container">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <input 
+          type="text" 
+          id="searchInput" 
+          placeholder="Buscar paciente por nome..." 
+          onkeyup="filtrarPacientes()" 
+          class="search-bar"
+        />
+      </div>
+      
       <div class="pacientes-list" id="pacientesList">
         <div class="paciente-card" data-paciente="João Silva">
-          <h3>João Silva</h3>
-          <p>Última consulta: 10/10/2025</p>
+          <div class="paciente-header">
+            <div class="paciente-avatar">JS</div>
+            <div class="paciente-info">
+              <h3>João Silva</h3>
+              <p class="paciente-meta">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                Última consulta: 10/10/2025
+              </p>
+            </div>
+          </div>
           <div id="quizBadgeJoao" class="quiz-badge" style="display: none;"></div>
-          <button onclick="window.location.href='prontuario_paciente.html'">Ver Prontuário</button>
+          <div class="paciente-actions">
+            <button class="btn-prontuario" onclick="window.location.href='prontuario_paciente.html'">Ver Prontuário</button>
+          </div>
         </div>
         <div class="paciente-card" data-paciente="Maria Oliveira">
-          <h3>Maria Oliveira</h3>
-          <p>Última consulta: 15/10/2025</p>
+          <div class="paciente-header">
+            <div class="paciente-avatar">MO</div>
+            <div class="paciente-info">
+              <h3>Maria Oliveira</h3>
+              <p class="paciente-meta">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                Última consulta: 15/10/2025
+              </p>
+            </div>
+          </div>
           <div id="quizBadgeMaria" class="quiz-badge" style="display: none;"></div>
-          <button>Ver Prontuário</button>
+          <div class="paciente-actions">
+            <button class="btn-prontuario">Ver Prontuário</button>
+          </div>
         </div>
         <div class="paciente-card" data-paciente="Pedro Lima">
-          <h3>Pedro Lima</h3>
-          <p>Última consulta: 18/10/2025</p>
+          <div class="paciente-header">
+            <div class="paciente-avatar">PL</div>
+            <div class="paciente-info">
+              <h3>Pedro Lima</h3>
+              <p class="paciente-meta">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                Última consulta: 18/10/2025
+              </p>
+            </div>
+          </div>
           <div id="quizBadgePedro" class="quiz-badge" style="display: none;"></div>
-          <button>Ver Prontuário</button>
+          <div class="paciente-actions">
+            <button class="btn-prontuario">Ver Prontuário</button>
+          </div>
         </div>
       </div>
     </section>
@@ -811,6 +1055,63 @@
     </div>
   </div>
 
+  <!-- Modal: Gerenciar Agenda -->
+  <div id="modalAgenda" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>📅 Gerenciar Agenda</h3>
+        <span class="close" onclick="fecharModal('modalAgenda')">&times;</span>
+      </div>
+      <form id="formAgenda" onsubmit="adicionarDisponibilidade(event)">
+        <div class="form-group">
+          <label for="dataDisponivel">Data Disponível:</label>
+          <input type="date" id="dataDisponivel" required />
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="horaInicio">Hora Início:</label>
+            <input type="time" id="horaInicio" required />
+          </div>
+          <div class="form-group">
+            <label for="horaFim">Hora Fim:</label>
+            <input type="time" id="horaFim" required />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="observacoesAgenda">Observações (opcional):</label>
+          <textarea id="observacoesAgenda" placeholder="Ex: Período de almoço das 12h às 13h..."></textarea>
+        </div>
+        <div class="modal-buttons">
+          <button type="button" class="btn-secondary" onclick="fecharModal('modalAgenda')">Cancelar</button>
+          <button type="submit" class="btn-primary">Adicionar Disponibilidade</button>
+        </div>
+      </form>
+      <div style="margin-top: 30px;">
+        <h4 style="color: var(--primary); margin-bottom: 15px;">📋 Disponibilidades Cadastradas</h4>
+        <div id="listaDisponibilidades" style="max-height: 300px; overflow-y: auto;">
+          <!-- Lista será preenchida dinamicamente -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Chat com Recepcionista -->
+  <div id="modalChat" class="modal">
+    <div class="modal-content" style="max-width: 600px; height: 80vh; display: flex; flex-direction: column;">
+      <div class="modal-header">
+        <h3>💬 Chat com Recepcionista</h3>
+        <span class="close" onclick="fecharModal('modalChat')">&times;</span>
+      </div>
+      <div id="chatMessages" style="flex: 1; overflow-y: auto; padding: 20px; background: #f8fbff; border-radius: 8px; margin-bottom: 15px; display: flex; flex-direction: column; gap: 15px;">
+        <!-- Mensagens serão adicionadas aqui -->
+      </div>
+      <form id="formChat" onsubmit="enviarMensagem(event)" style="display: flex; gap: 10px;">
+        <input type="text" id="mensagemInput" placeholder="Digite sua mensagem..." style="flex: 1; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 15px;" required />
+        <button type="submit" class="btn-primary" style="padding: 12px 24px;">Enviar</button>
+      </form>
+    </div>
+  </div>
+
   <script>
     function abrirModal(modalId) {
       document.getElementById(modalId).style.display = 'flex';
@@ -877,6 +1178,19 @@
         <span>${quizData.horarioDisponivel || 'Não informado'}</span>
       `;
       quizGrid.appendChild(horarioItem);
+
+      // Dias Disponíveis
+      if (quizData.diasDisponiveis && quizData.diasDisponiveis.length > 0) {
+        const diasItem = document.createElement('div');
+        diasItem.className = 'quiz-info-item';
+        diasItem.style.gridColumn = '1 / -1';
+        const diasFormatados = quizData.diasDisponiveis.join(', ');
+        diasItem.innerHTML = `
+          <strong>📅 Dias Disponíveis</strong>
+          <span>${diasFormatados}</span>
+        `;
+        quizGrid.appendChild(diasItem);
+      }
 
       // Nível de Urgência
       const urgenciaInfo = formatarUrgencia(quizData.nivelUrgencia || 1);
@@ -1178,19 +1492,170 @@
         const nome = card.querySelector('h3').textContent.toLowerCase();
         if (nome.includes(filter)) {
           card.style.display = '';
+          card.style.animation = 'fadeIn 0.3s ease';
         } else {
           card.style.display = 'none';
         }
       });
     }
 
-    // Carrega badges quando a página carregar
+    // Função para gerar iniciais do nome
+    function getIniciais(nome) {
+      return nome.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+    }
+
+    // Atualiza avatares e badges quando a página carregar
     document.addEventListener('DOMContentLoaded', function() {
+      const cards = document.querySelectorAll('.paciente-card');
+      cards.forEach(card => {
+        const nome = card.querySelector('h3').textContent;
+        const avatar = card.querySelector('.paciente-avatar');
+        if (avatar) {
+          // Gera iniciais se não houver conteúdo ou se quiser atualizar
+          const iniciais = getIniciais(nome);
+          if (!avatar.textContent.trim() || avatar.textContent.trim().length !== 2) {
+            avatar.textContent = iniciais;
+          }
+        }
+      });
       atualizarBadgesPacientes();
     });
 
     document.getElementById('dataConsulta').min = new Date().toISOString().split('T')[0];
     document.getElementById('dataReceita').min = new Date().toISOString().split('T')[0];
+    document.getElementById('dataDisponivel').min = new Date().toISOString().split('T')[0];
+
+    // Funções de Agenda
+    function adicionarDisponibilidade(event) {
+      event.preventDefault();
+      const disponibilidade = {
+        data: document.getElementById('dataDisponivel').value,
+        horaInicio: document.getElementById('horaInicio').value,
+        horaFim: document.getElementById('horaFim').value,
+        observacoes: document.getElementById('observacoesAgenda').value || '',
+        id: Date.now()
+      };
+
+      const disponibilidades = JSON.parse(localStorage.getItem('agendaDentista')) || [];
+      disponibilidades.push(disponibilidade);
+      localStorage.setItem('agendaDentista', JSON.stringify(disponibilidades));
+
+      carregarDisponibilidades();
+      document.getElementById('formAgenda').reset();
+      alert('✅ Disponibilidade adicionada com sucesso!');
+    }
+
+    function carregarDisponibilidades() {
+      const disponibilidades = JSON.parse(localStorage.getItem('agendaDentista')) || [];
+      const lista = document.getElementById('listaDisponibilidades');
+      
+      if (disponibilidades.length === 0) {
+        lista.innerHTML = '<p style="color: var(--muted); text-align: center; padding: 20px;">Nenhuma disponibilidade cadastrada ainda.</p>';
+        return;
+      }
+
+      lista.innerHTML = disponibilidades.map(disp => {
+        const dataFormatada = new Date(disp.data + 'T00:00:00').toLocaleDateString('pt-BR');
+        return `
+          <div style="background: #f8fbff; padding: 15px; border-radius: 8px; margin-bottom: 10px; border: 1px solid #e2e8f0; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <strong>${dataFormatada}</strong>
+              <p style="margin: 5px 0; color: var(--muted); font-size: 14px;">${disp.horaInicio} - ${disp.horaFim}</p>
+              ${disp.observacoes ? `<p style="font-size: 12px; color: var(--muted); margin-top: 5px;">${disp.observacoes}</p>` : ''}
+            </div>
+            <button onclick="removerDisponibilidade(${disp.id})" class="btn-remove" style="margin: 0;">Remover</button>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function removerDisponibilidade(id) {
+      if (!confirm('Deseja realmente remover esta disponibilidade?')) return;
+      
+      const disponibilidades = JSON.parse(localStorage.getItem('agendaDentista')) || [];
+      const filtradas = disponibilidades.filter(d => d.id !== id);
+      localStorage.setItem('agendaDentista', JSON.stringify(filtradas));
+      carregarDisponibilidades();
+    }
+
+    // Funções de Chat
+    function enviarMensagem(event) {
+      event.preventDefault();
+      const input = document.getElementById('mensagemInput');
+      const mensagem = input.value.trim();
+      
+      if (!mensagem) return;
+
+      const mensagemData = {
+        remetente: 'Dentista',
+        texto: mensagem,
+        data: new Date().toISOString(),
+        id: Date.now()
+      };
+
+      const mensagens = JSON.parse(localStorage.getItem('chatDentistaRecepcionista')) || [];
+      mensagens.push(mensagemData);
+      localStorage.setItem('chatDentistaRecepcionista', JSON.stringify(mensagens));
+
+      input.value = '';
+      carregarMensagens();
+    }
+
+    function carregarMensagens() {
+      const mensagens = JSON.parse(localStorage.getItem('chatDentistaRecepcionista')) || [];
+      const container = document.getElementById('chatMessages');
+      
+      if (mensagens.length === 0) {
+        container.innerHTML = '<p style="text-align: center; color: var(--muted);">Nenhuma mensagem ainda. Inicie a conversa!</p>';
+        return;
+      }
+
+      container.innerHTML = mensagens.map(msg => {
+        const dataFormatada = new Date(msg.data).toLocaleString('pt-BR');
+        const isDentista = msg.remetente === 'Dentista';
+        return `
+          <div style="display: flex; ${isDentista ? 'justify-content: flex-end' : 'justify-content: flex-start'};">
+            <div style="max-width: 70%; background: ${isDentista ? 'var(--secondary)' : 'white'}; color: ${isDentista ? 'white' : 'var(--text)'}; padding: 12px 16px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+              <div style="font-weight: 600; font-size: 12px; margin-bottom: 5px; opacity: 0.9;">${msg.remetente}</div>
+              <div style="font-size: 15px;">${msg.texto}</div>
+              <div style="font-size: 11px; margin-top: 5px; opacity: 0.7;">${dataFormatada}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+      
+      container.scrollTop = container.scrollHeight;
+    }
+
+    // Carrega disponibilidades quando o modal de agenda é aberto
+    document.getElementById('modalAgenda').addEventListener('click', function(e) {
+      if (e.target === this || e.target.classList.contains('modal')) {
+        // Não faz nada ao clicar fora - deixa o fecharModal padrão funcionar
+      }
+    });
+
+    // Carrega mensagens quando o modal de chat é aberto
+    const originalAbrirModal = abrirModal;
+    window.abrirModal = function(modalId) {
+      originalAbrirModal(modalId);
+      if (modalId === 'modalChat') {
+        carregarMensagens();
+        // Auto-refresh a cada 2 segundos
+        if (window.chatInterval) clearInterval(window.chatInterval);
+        window.chatInterval = setInterval(carregarMensagens, 2000);
+      } else if (modalId === 'modalAgenda') {
+        carregarDisponibilidades();
+      }
+    };
+
+    // Limpa intervalo quando fecha o chat
+    const originalFecharModal = fecharModal;
+    window.fecharModal = function(modalId) {
+      originalFecharModal(modalId);
+      if (modalId === 'modalChat' && window.chatInterval) {
+        clearInterval(window.chatInterval);
+      }
+    };
   </script>
 </body>
 </html>
