@@ -92,13 +92,346 @@
     .paciente-card button:hover { background: var(--primary); }
 
     .dentista-footer { text-align: center; padding: 30px 20px; color: var(--muted); font-size: 14px; border-top: 1px solid #e2e8f0; margin-top: 40px; }
+
+    .acoes-rapidas {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .btn-acao {
+      background: var(--secondary);
+      color: white;
+      border: none;
+      padding: 20px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .btn-acao:hover {
+      background: var(--primary);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 30px 40px;
+      width: 90%;
+      max-width: 800px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      animation: slide-down 0.4s ease-out;
+    }
+
+    @keyframes slide-down {
+      from { transform: translateY(-30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    .modal-header h3 {
+      color: var(--primary);
+      font-size: 24px;
+      margin: 0;
+    }
+
+    .close {
+      color: var(--muted);
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .close:hover { color: #e53e3e; }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 15px;
+      font-family: inherit;
+      transition: border-color 0.3s;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--secondary);
+      box-shadow: 0 0 0 3px rgba(49,130,206,0.2);
+    }
+
+    .form-group textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .item-orcamento,
+    .item-medicamento {
+      background: #f8fbff;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .btn-add-item {
+      background: #38a169;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+
+    .btn-add-item:hover {
+      background: #2f855a;
+    }
+
+    .btn-remove {
+      background: #e53e3e;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 12px;
+      margin-top: 10px;
+    }
+
+    .btn-remove:hover {
+      background: #c53030;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 15px;
+      margin-top: 25px;
+      justify-content: flex-end;
+    }
+
+    .modal-buttons button {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-primary {
+      background: var(--secondary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary);
+    }
+
+    .btn-secondary {
+      background: #e2e8f0;
+      color: var(--text);
+    }
+
+    .btn-secondary:hover {
+      background: #cbd5e0;
+    }
+
+    .prontuario-view {
+      background: #f8fbff;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      max-height: 200px;
+      overflow-y: auto;
+      border: 1px solid #e2e8f0;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .status-pendente { background: #fed7d7; color: #c53030; }
+    .status-em-andamento { background: #feebc8; color: #c05621; }
+    .status-concluida { background: #c6f6d5; color: #22543d; }
+
+    .mensagem-sucesso {
+      display: none;
+      padding: 15px;
+      background: #c6f6d5;
+      color: #22543d;
+      border-radius: 10px;
+      margin-top: 15px;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    /* Estilos para o Quiz do Paciente */
+    .quiz-info-section {
+      background: #f0f7ff;
+      border-left: 4px solid var(--secondary);
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      margin-top: 20px;
+    }
+
+    .quiz-info-section h4 {
+      color: var(--primary);
+      font-size: 18px;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .quiz-info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+    }
+
+    .quiz-info-item {
+      background: white;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .quiz-info-item strong {
+      color: var(--primary);
+      display: block;
+      margin-bottom: 5px;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .quiz-info-item span {
+      color: var(--text);
+      font-size: 15px;
+    }
+
+    .quiz-urgency-badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 5px;
+    }
+
+    .quiz-urgency-badge.baixa { background: #c6f6d5; color: #22543d; }
+    .quiz-urgency-badge.media { background: #feebc8; color: #c05621; }
+    .quiz-urgency-badge.alta { background: #fed7d7; color: #c53030; }
+    .quiz-urgency-badge.muito-alta { background: #fc8181; color: #742a2a; }
+    .quiz-urgency-badge.emergencia { background: #e53e3e; color: white; }
+
+    .quiz-urgency-bar {
+      height: 8px;
+      border-radius: 10px;
+      margin-top: 8px;
+      background: #e2e8f0;
+      overflow: hidden;
+    }
+
+    .quiz-urgency-bar-fill {
+      height: 100%;
+      border-radius: 10px;
+      transition: width 0.3s;
+    }
+
+    .quiz-urgency-bar-fill.baixa { width: 20%; background: linear-gradient(90deg, #63b3ed, #4299e1); }
+    .quiz-urgency-bar-fill.media { width: 60%; background: linear-gradient(90deg, #f6ad55, #ed8936); }
+    .quiz-urgency-bar-fill.alta { width: 80%; background: linear-gradient(90deg, #fc8181, #f56565); }
+    .quiz-urgency-bar-fill.muito-alta { width: 90%; background: linear-gradient(90deg, #f56565, #e53e3e); }
+    .quiz-urgency-bar-fill.emergencia { width: 100%; background: linear-gradient(90deg, #e53e3e, #c53030); }
+
+    .paciente-card .quiz-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-top: 8px;
+    }
+
+    .paciente-card .quiz-badge.quiz-respondido {
+      background: #c6f6d5;
+      color: #22543d;
+    }
+
+    @media (max-width: 768px) {
+      .form-row { grid-template-columns: 1fr; }
+      .acoes-rapidas { grid-template-columns: 1fr; }
+      .quiz-info-grid { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
 
   <header class="dentista-header">
   <div class="container">
-    <a href="#" class="logo">Dentrix</a>
+     <a href="index.html" class="logo">Dentrix</a>
     <nav class="nav-links">
       <a href="index.html" class="sair">Sair</a>
     </nav>
@@ -112,6 +445,15 @@
       <h2>Olá, Dr(a). Camila Ribeiro! 👋</h2>
       <p>Hoje você tem <strong>4</strong> consultas agendadas.</p>
     </section>
+
+    <!-- AÇÕES RÁPIDAS -->
+    <div class="acoes-rapidas">
+      <button class="btn-acao" onclick="abrirModal('modalConsulta')">🦷 Realizar Consulta</button>
+      <button class="btn-acao" onclick="abrirModal('modalOrcamento')">💰 Disponibilizar Orçamento</button>
+      <button class="btn-acao" onclick="abrirModal('modalRelatorio')">📊 Gerar Relatório</button>
+      <button class="btn-acao" onclick="abrirModal('modalReceita')">💊 Emitir Receita</button>
+      <button class="btn-acao" onclick="abrirModal('modalExame')">🔬 Solicitar Exame</button>
+    </div>
 
     <!-- DASHBOARD PRINCIPAL -->
     <div class="dashboard">
@@ -147,20 +489,23 @@
         onkeyup="filtrarPacientes()" 
         class="search-bar"
       />
-      <div class="pacientes-list">
-        <div class="paciente-card">
+      <div class="pacientes-list" id="pacientesList">
+        <div class="paciente-card" data-paciente="João Silva">
           <h3>João Silva</h3>
           <p>Última consulta: 10/10/2025</p>
+          <div id="quizBadgeJoao" class="quiz-badge" style="display: none;"></div>
           <button onclick="window.location.href='prontuario_paciente.html'">Ver Prontuário</button>
         </div>
-        <div class="paciente-card">
+        <div class="paciente-card" data-paciente="Maria Oliveira">
           <h3>Maria Oliveira</h3>
           <p>Última consulta: 15/10/2025</p>
+          <div id="quizBadgeMaria" class="quiz-badge" style="display: none;"></div>
           <button>Ver Prontuário</button>
         </div>
-        <div class="paciente-card">
+        <div class="paciente-card" data-paciente="Pedro Lima">
           <h3>Pedro Lima</h3>
           <p>Última consulta: 18/10/2025</p>
+          <div id="quizBadgePedro" class="quiz-badge" style="display: none;"></div>
           <button>Ver Prontuário</button>
         </div>
       </div>
@@ -173,6 +518,679 @@
     <p><small>Este é um projeto acadêmico fictício.</small></p>
   </footer>
 
-  <script src="dentista.js"></script>
+  <!-- Modal: Realizar Consulta -->
+  <div id="modalConsulta" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>🦷 Realizar Consulta</h3>
+        <span class="close" onclick="fecharModal('modalConsulta')">&times;</span>
+      </div>
+      <form id="formConsulta" onsubmit="salvarConsulta(event)">
+        <div class="form-group">
+          <label for="consultaPaciente">Paciente:</label>
+          <select id="consultaPaciente" required>
+            <option value="">Selecione o paciente</option>
+            <option value="João Silva">João Silva</option>
+            <option value="Maria Oliveira">Maria Oliveira</option>
+            <option value="Pedro Lima">Pedro Lima</option>
+            <option value="Ana Costa">Ana Costa</option>
+          </select>
+        </div>
+
+        <div class="prontuario-view" id="prontuarioView">
+          <strong>Prontuário do Paciente:</strong>
+          <p id="prontuarioTexto">Selecione um paciente para visualizar o prontuário</p>
+        </div>
+
+        <!-- Seção de Informações do Quiz -->
+        <div class="quiz-info-section" id="quizInfoSection" style="display: none;">
+          <h4>📋 Questionário de Consulta do Paciente</h4>
+          <div class="quiz-info-grid" id="quizInfoGrid">
+            <!-- Conteúdo será preenchido dinamicamente -->
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="diagnostico">Diagnóstico:</label>
+          <textarea id="diagnostico" placeholder="Descreva o diagnóstico do paciente..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="procedimentos">Procedimentos Realizados:</label>
+          <textarea id="procedimentos" placeholder="Liste os procedimentos realizados durante a consulta..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="observacoes">Observações:</label>
+          <textarea id="observacoes" placeholder="Adicione observações relevantes sobre a consulta..."></textarea>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="statusConsulta">Status da Consulta:</label>
+            <select id="statusConsulta" required>
+              <option value="em-andamento">Em Andamento</option>
+              <option value="concluida">Concluída</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="dataConsulta">Data da Consulta:</label>
+            <input type="date" id="dataConsulta" required />
+          </div>
+        </div>
+
+        <div class="modal-buttons">
+          <button type="button" class="btn-secondary" onclick="fecharModal('modalConsulta')">Cancelar</button>
+          <button type="submit" class="btn-primary">Salvar Consulta</button>
+        </div>
+        <div class="mensagem-sucesso" id="msgConsulta">✅ Consulta salva com sucesso!</div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Disponibilizar Orçamento -->
+  <div id="modalOrcamento" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>💰 Disponibilizar Orçamento</h3>
+        <span class="close" onclick="fecharModal('modalOrcamento')">&times;</span>
+      </div>
+      <form id="formOrcamento" onsubmit="salvarOrcamento(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="orcamentoPaciente">Paciente:</label>
+            <select id="orcamentoPaciente" required>
+              <option value="">Selecione o paciente</option>
+              <option value="João Silva">João Silva</option>
+              <option value="Maria Oliveira">Maria Oliveira</option>
+              <option value="Pedro Lima">Pedro Lima</option>
+              <option value="Ana Costa">Ana Costa</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="orcamentoValidade">Validade (dias):</label>
+            <input type="number" id="orcamentoValidade" value="30" min="1" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Itens do Orçamento:</label>
+          <div id="itensOrcamento"></div>
+          <button type="button" class="btn-add-item" onclick="adicionarItemOrcamento()">+ Adicionar Item</button>
+        </div>
+
+        <div class="form-group">
+          <label for="condicoesPagamento">Condições de Pagamento:</label>
+          <textarea id="condicoesPagamento" placeholder="Ex: À vista com 10% desconto, ou parcelado em até 6x sem juros..."></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="totalOrcamento">Valor Total: R$ <span id="totalOrcamento">0.00</span></label>
+        </div>
+
+        <div class="form-group">
+          <label for="destinoOrcamento">Enviar para:</label>
+          <select id="destinoOrcamento" required>
+            <option value="paciente">Paciente</option>
+            <option value="recepcionista">Recepcionista</option>
+          </select>
+        </div>
+
+        <div class="modal-buttons">
+          <button type="button" class="btn-secondary" onclick="fecharModal('modalOrcamento')">Cancelar</button>
+          <button type="submit" class="btn-primary">Enviar Orçamento</button>
+        </div>
+        <div class="mensagem-sucesso" id="msgOrcamento">✅ Orçamento enviado com sucesso!</div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Gerar Relatório -->
+  <div id="modalRelatorio" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>📊 Gerar Relatório</h3>
+        <span class="close" onclick="fecharModal('modalRelatorio')">&times;</span>
+      </div>
+      <form id="formRelatorio" onsubmit="gerarRelatorio(event)">
+        <div class="form-group">
+          <label for="tipoRelatorio">Tipo de Relatório:</label>
+          <select id="tipoRelatorio" required onchange="atualizarCamposRelatorio()">
+            <option value="">Selecione o tipo</option>
+            <option value="consultas">Consultas por Período</option>
+            <option value="procedimentos">Procedimentos Mais Realizados</option>
+            <option value="evolucao">Evolução de Pacientes</option>
+          </select>
+        </div>
+
+        <div class="form-row" id="camposPeriodo" style="display: none;">
+          <div class="form-group">
+            <label for="dataInicio">Data Início:</label>
+            <input type="date" id="dataInicio" />
+          </div>
+          <div class="form-group">
+            <label for="dataFim">Data Fim:</label>
+            <input type="date" id="dataFim" />
+          </div>
+        </div>
+
+        <div class="form-group" id="campoPaciente" style="display: none;">
+          <label for="relatorioPaciente">Paciente (para evolução):</label>
+          <select id="relatorioPaciente">
+            <option value="">Todos os pacientes</option>
+            <option value="João Silva">João Silva</option>
+            <option value="Maria Oliveira">Maria Oliveira</option>
+            <option value="Pedro Lima">Pedro Lima</option>
+            <option value="Ana Costa">Ana Costa</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="formatoRelatorio">Formato de Exportação:</label>
+          <select id="formatoRelatorio" required>
+            <option value="pdf">PDF</option>
+            <option value="excel">Excel (XLSX)</option>
+          </select>
+        </div>
+
+        <div class="modal-buttons">
+          <button type="button" class="btn-secondary" onclick="fecharModal('modalRelatorio')">Cancelar</button>
+          <button type="submit" class="btn-primary">Gerar e Exportar</button>
+        </div>
+        <div class="mensagem-sucesso" id="msgRelatorio">✅ Relatório gerado com sucesso!</div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Emitir Receita -->
+  <div id="modalReceita" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>💊 Emitir Receita</h3>
+        <span class="close" onclick="fecharModal('modalReceita')">&times;</span>
+      </div>
+      <form id="formReceita" onsubmit="emitirReceita(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="receitaPaciente">Paciente:</label>
+            <select id="receitaPaciente" required>
+              <option value="">Selecione o paciente</option>
+              <option value="João Silva">João Silva</option>
+              <option value="Maria Oliveira">Maria Oliveira</option>
+              <option value="Pedro Lima">Pedro Lima</option>
+              <option value="Ana Costa">Ana Costa</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="dataReceita">Data:</label>
+            <input type="date" id="dataReceita" required />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Medicamentos:</label>
+          <div id="medicamentosReceita"></div>
+          <button type="button" class="btn-add-item" onclick="adicionarMedicamento()">+ Adicionar Medicamento</button>
+        </div>
+
+        <div class="form-group">
+          <label for="orientacoesReceita">Orientações Gerais:</label>
+          <textarea id="orientacoesReceita" placeholder="Orientações adicionais para o paciente..."></textarea>
+        </div>
+
+        <div class="modal-buttons">
+          <button type="button" class="btn-secondary" onclick="fecharModal('modalReceita')">Cancelar</button>
+          <button type="submit" class="btn-primary">Emitir Receita</button>
+        </div>
+        <div class="mensagem-sucesso" id="msgReceita">✅ Receita emitida com sucesso!</div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Solicitar Exame Complementar -->
+  <div id="modalExame" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>🔬 Solicitar Exame Complementar</h3>
+        <span class="close" onclick="fecharModal('modalExame')">&times;</span>
+      </div>
+      <form id="formExame" onsubmit="solicitarExame(event)">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="examePaciente">Paciente:</label>
+            <select id="examePaciente" required>
+              <option value="">Selecione o paciente</option>
+              <option value="João Silva">João Silva</option>
+              <option value="Maria Oliveira">Maria Oliveira</option>
+              <option value="Pedro Lima">Pedro Lima</option>
+              <option value="Ana Costa">Ana Costa</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="tipoExame">Tipo de Exame:</label>
+            <select id="tipoExame" required>
+              <option value="">Selecione o tipo</option>
+              <option value="raio-x">Raios-X</option>
+              <option value="tomografia">Tomografia</option>
+              <option value="hemograma">Hemograma</option>
+              <option value="glicemia">Glicemia</option>
+              <option value="outro">Outro</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="justificativaExame">Justificativa Clínica:</label>
+          <textarea id="justificativaExame" placeholder="Descreva a justificativa clínica para a solicitação do exame..." required></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="destinoExame">Enviar para:</label>
+          <select id="destinoExame" required>
+            <option value="laboratorio">Laboratório</option>
+            <option value="paciente">Paciente</option>
+            <option value="ambos">Laboratório e Paciente</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="urgenciaExame">Urgência:</label>
+          <select id="urgenciaExame">
+            <option value="normal">Normal</option>
+            <option value="urgente">Urgente</option>
+            <option value="emergencia">Emergência</option>
+          </select>
+        </div>
+
+        <div class="modal-buttons">
+          <button type="button" class="btn-secondary" onclick="fecharModal('modalExame')">Cancelar</button>
+          <button type="submit" class="btn-primary">Solicitar Exame</button>
+        </div>
+        <div class="mensagem-sucesso" id="msgExame">✅ Exame solicitado com sucesso!</div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    function abrirModal(modalId) {
+      document.getElementById(modalId).style.display = 'flex';
+    }
+
+    function fecharModal(modalId) {
+      document.getElementById(modalId).style.display = 'none';
+    }
+
+    window.onclick = function(event) {
+      if (event.target.classList.contains('modal')) {
+        event.target.style.display = 'none';
+      }
+    }
+
+    function formatarUrgencia(nivel) {
+      const textos = {
+        1: { texto: 'Baixa', classe: 'baixa' },
+        2: { texto: 'Média', classe: 'media' },
+        3: { texto: 'Alta', classe: 'alta' },
+        4: { texto: 'Muito Alta', classe: 'muito-alta' },
+        5: { texto: 'Emergência', classe: 'emergencia' }
+      };
+      return textos[nivel] || textos[1];
+    }
+
+    function exibirQuizInfo(pacienteNome) {
+      const quizData = JSON.parse(localStorage.getItem('quizPaciente')) || null;
+      const quizSection = document.getElementById('quizInfoSection');
+      const quizGrid = document.getElementById('quizInfoGrid');
+
+      if (!quizData) {
+        quizSection.style.display = 'none';
+        return;
+      }
+
+      // Mostra a seção do quiz
+      quizSection.style.display = 'block';
+      quizGrid.innerHTML = '';
+
+      // Remédio Controlado
+      const remedioItem = document.createElement('div');
+      remedioItem.className = 'quiz-info-item';
+      remedioItem.innerHTML = `
+        <strong>💊 Remédio Controlado</strong>
+        <span>${quizData.remedioControlado === 'sim' ? 'Sim' : 'Não'}</span>
+      `;
+      quizGrid.appendChild(remedioItem);
+
+      // Tipo de Tratamento
+      const tratamentoItem = document.createElement('div');
+      tratamentoItem.className = 'quiz-info-item';
+      tratamentoItem.innerHTML = `
+        <strong>🦷 Tipo de Tratamento</strong>
+        <span>${quizData.tipoTratamento || 'Não informado'}</span>
+      `;
+      quizGrid.appendChild(tratamentoItem);
+
+      // Horário Disponível
+      const horarioItem = document.createElement('div');
+      horarioItem.className = 'quiz-info-item';
+      horarioItem.innerHTML = `
+        <strong>⏰ Horário Disponível</strong>
+        <span>${quizData.horarioDisponivel || 'Não informado'}</span>
+      `;
+      quizGrid.appendChild(horarioItem);
+
+      // Nível de Urgência
+      const urgenciaInfo = formatarUrgencia(quizData.nivelUrgencia || 1);
+      const urgenciaItem = document.createElement('div');
+      urgenciaItem.className = 'quiz-info-item';
+      urgenciaItem.innerHTML = `
+        <strong>🚨 Nível de Urgência</strong>
+        <span class="quiz-urgency-badge ${urgenciaInfo.classe}">${quizData.nivelUrgencia || 1} - ${urgenciaInfo.texto}</span>
+        <div class="quiz-urgency-bar">
+          <div class="quiz-urgency-bar-fill ${urgenciaInfo.classe}"></div>
+        </div>
+      `;
+      quizGrid.appendChild(urgenciaItem);
+
+      // Informações sobre Dor
+      if (quizData.temDor) {
+        const dorItem = document.createElement('div');
+        dorItem.className = 'quiz-info-item';
+        dorItem.innerHTML = `
+          <strong>😣 Está sentindo dor?</strong>
+          <span>${quizData.temDor === 'sim' ? 'Sim' : 'Não'}</span>
+        `;
+        quizGrid.appendChild(dorItem);
+
+        if (quizData.temDor === 'sim' && quizData.tempoDor) {
+          const tempoDorItem = document.createElement('div');
+          tempoDorItem.className = 'quiz-info-item';
+          tempoDorItem.innerHTML = `
+            <strong>⏱️ Tempo de Dor</strong>
+            <span>${quizData.tempoDor}</span>
+          `;
+          quizGrid.appendChild(tempoDorItem);
+        }
+      }
+    }
+
+    document.getElementById('consultaPaciente').addEventListener('change', function() {
+      const pacientes = {
+        'João Silva': 'Paciente desde 2020. Histórico: Limpeza regular, 2 restaurações. Alergias: Nenhuma conhecida.',
+        'Maria Oliveira': 'Paciente desde 2019. Histórico: Ortodontia concluída, clareamento. Alergias: Penicilina.',
+        'Pedro Lima': 'Paciente desde 2021. Histórico: Implante, prótese. Alergias: Nenhuma conhecida.',
+        'Ana Costa': 'Paciente desde 2022. Histórico: Limpeza regular. Alergias: Nenhuma conhecida.'
+      };
+      document.getElementById('prontuarioTexto').textContent = pacientes[this.value] || 'Selecione um paciente para visualizar o prontuário';
+      
+      // Exibe informações do quiz
+      exibirQuizInfo(this.value);
+    });
+
+    let itemOrcamentoCount = 0;
+    function adicionarItemOrcamento() {
+      itemOrcamentoCount++;
+      const div = document.createElement('div');
+      div.className = 'item-orcamento';
+      div.id = 'item-' + itemOrcamentoCount;
+      div.innerHTML = `
+        <div class="form-row">
+          <div class="form-group">
+            <label>Descrição:</label>
+            <input type="text" class="item-descricao" placeholder="Ex: Restauração" required>
+          </div>
+          <div class="form-group">
+            <label>Valor (R$):</label>
+            <input type="number" class="item-valor" step="0.01" min="0" placeholder="0.00" required onchange="calcularTotalOrcamento()">
+          </div>
+        </div>
+        <button type="button" class="btn-remove" onclick="removerItemOrcamento('item-${itemOrcamentoCount}')">Remover</button>
+      `;
+      document.getElementById('itensOrcamento').appendChild(div);
+    }
+
+    function removerItemOrcamento(id) {
+      document.getElementById(id).remove();
+      calcularTotalOrcamento();
+    }
+
+    function calcularTotalOrcamento() {
+      let total = 0;
+      document.querySelectorAll('.item-valor').forEach(input => {
+        total += parseFloat(input.value) || 0;
+      });
+      document.getElementById('totalOrcamento').textContent = total.toFixed(2).replace('.', ',');
+    }
+
+    let medicamentoCount = 0;
+    function adicionarMedicamento() {
+      medicamentoCount++;
+      const div = document.createElement('div');
+      div.className = 'item-medicamento';
+      div.id = 'med-' + medicamentoCount;
+      div.innerHTML = `
+        <div class="form-group">
+          <label>Nome do Medicamento:</label>
+          <input type="text" class="med-nome" placeholder="Ex: Amoxicilina 500mg" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Posologia:</label>
+            <input type="text" class="med-posologia" placeholder="Ex: 1 comprimido" required>
+          </div>
+          <div class="form-group">
+            <label>Frequência:</label>
+            <input type="text" class="med-frequencia" placeholder="Ex: De 8 em 8 horas" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Quantidade:</label>
+            <input type="text" class="med-quantidade" placeholder="Ex: 21 comprimidos" required>
+          </div>
+          <div class="form-group">
+            <label>Duração:</label>
+            <input type="text" class="med-duracao" placeholder="Ex: 7 dias" required>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Orientações:</label>
+          <textarea class="med-orientacoes" placeholder="Orientações específicas para este medicamento..."></textarea>
+        </div>
+        <button type="button" class="btn-remove" onclick="removerMedicamento('med-${medicamentoCount}')">Remover</button>
+      `;
+      document.getElementById('medicamentosReceita').appendChild(div);
+    }
+
+    function removerMedicamento(id) {
+      document.getElementById(id).remove();
+    }
+
+    function atualizarCamposRelatorio() {
+      const tipo = document.getElementById('tipoRelatorio').value;
+      document.getElementById('camposPeriodo').style.display = tipo === 'consultas' ? 'grid' : 'none';
+      document.getElementById('campoPaciente').style.display = tipo === 'evolucao' ? 'block' : 'none';
+    }
+
+    function salvarConsulta(event) {
+      event.preventDefault();
+      const consulta = {
+        paciente: document.getElementById('consultaPaciente').value,
+        diagnostico: document.getElementById('diagnostico').value,
+        procedimentos: document.getElementById('procedimentos').value,
+        observacoes: document.getElementById('observacoes').value,
+        status: document.getElementById('statusConsulta').value,
+        data: document.getElementById('dataConsulta').value
+      };
+      
+      const consultas = JSON.parse(localStorage.getItem('consultasDentista')) || [];
+      consultas.push({...consulta, id: Date.now()});
+      localStorage.setItem('consultasDentista', JSON.stringify(consultas));
+      
+      document.getElementById('msgConsulta').style.display = 'block';
+      setTimeout(() => {
+        fecharModal('modalConsulta');
+        document.getElementById('formConsulta').reset();
+        document.getElementById('msgConsulta').style.display = 'none';
+      }, 2000);
+    }
+
+    function salvarOrcamento(event) {
+      event.preventDefault();
+      const itens = [];
+      document.querySelectorAll('.item-orcamento').forEach(item => {
+        itens.push({
+          descricao: item.querySelector('.item-descricao').value,
+          valor: parseFloat(item.querySelector('.item-valor').value)
+        });
+      });
+
+      const orcamento = {
+        paciente: document.getElementById('orcamentoPaciente').value,
+        validade: document.getElementById('orcamentoValidade').value,
+        itens: itens,
+        total: parseFloat(document.getElementById('totalOrcamento').textContent.replace(',', '.')),
+        condicoes: document.getElementById('condicoesPagamento').value,
+        destino: document.getElementById('destinoOrcamento').value
+      };
+
+      const orcamentos = JSON.parse(localStorage.getItem('orcamentosDentista')) || [];
+      orcamentos.push({...orcamento, id: Date.now()});
+      localStorage.setItem('orcamentosDentista', JSON.stringify(orcamentos));
+
+      document.getElementById('msgOrcamento').style.display = 'block';
+      setTimeout(() => {
+        fecharModal('modalOrcamento');
+        document.getElementById('formOrcamento').reset();
+        document.getElementById('itensOrcamento').innerHTML = '';
+        document.getElementById('totalOrcamento').textContent = '0.00';
+        itemOrcamentoCount = 0;
+        document.getElementById('msgOrcamento').style.display = 'none';
+      }, 2000);
+    }
+
+    function gerarRelatorio(event) {
+      event.preventDefault();
+      const tipo = document.getElementById('tipoRelatorio').value;
+      const formato = document.getElementById('formatoRelatorio').value;
+      
+      alert(`Relatório "${tipo}" gerado com sucesso! Formato: ${formato.toUpperCase()}\n\n(Simulação - Em produção, o arquivo seria baixado automaticamente)`);
+      
+      document.getElementById('msgRelatorio').style.display = 'block';
+      setTimeout(() => {
+        fecharModal('modalRelatorio');
+        document.getElementById('formRelatorio').reset();
+        document.getElementById('msgRelatorio').style.display = 'none';
+      }, 2000);
+    }
+
+    function emitirReceita(event) {
+      event.preventDefault();
+      const medicamentos = [];
+      document.querySelectorAll('.item-medicamento').forEach(item => {
+        medicamentos.push({
+          nome: item.querySelector('.med-nome').value,
+          posologia: item.querySelector('.med-posologia').value,
+          frequencia: item.querySelector('.med-frequencia').value,
+          quantidade: item.querySelector('.med-quantidade').value,
+          duracao: item.querySelector('.med-duracao').value,
+          orientacoes: item.querySelector('.med-orientacoes').value
+        });
+      });
+
+      const receita = {
+        paciente: document.getElementById('receitaPaciente').value,
+        data: document.getElementById('dataReceita').value,
+        medicamentos: medicamentos,
+        orientacoes: document.getElementById('orientacoesReceita').value,
+        dentista: 'Dr(a). Camila Ribeiro'
+      };
+
+      const receitas = JSON.parse(localStorage.getItem('receitasDentista')) || [];
+      receitas.push({...receita, id: Date.now()});
+      localStorage.setItem('receitasDentista', JSON.stringify(receitas));
+
+      document.getElementById('msgReceita').style.display = 'block';
+      setTimeout(() => {
+        fecharModal('modalReceita');
+        document.getElementById('formReceita').reset();
+        document.getElementById('medicamentosReceita').innerHTML = '';
+        medicamentoCount = 0;
+        document.getElementById('msgReceita').style.display = 'none';
+      }, 2000);
+    }
+
+    function solicitarExame(event) {
+      event.preventDefault();
+      const exame = {
+        paciente: document.getElementById('examePaciente').value,
+        tipo: document.getElementById('tipoExame').value,
+        justificativa: document.getElementById('justificativaExame').value,
+        destino: document.getElementById('destinoExame').value,
+        urgencia: document.getElementById('urgenciaExame').value,
+        data: new Date().toLocaleDateString('pt-BR')
+      };
+
+      const exames = JSON.parse(localStorage.getItem('examesDentista')) || [];
+      exames.push({...exame, id: Date.now()});
+      localStorage.setItem('examesDentista', JSON.stringify(exames));
+
+      document.getElementById('msgExame').style.display = 'block';
+      setTimeout(() => {
+        fecharModal('modalExame');
+        document.getElementById('formExame').reset();
+        document.getElementById('msgExame').style.display = 'none';
+      }, 2000);
+    }
+
+    function atualizarBadgesPacientes() {
+      const quizData = JSON.parse(localStorage.getItem('quizPaciente')) || null;
+      
+      if (!quizData) {
+        return;
+      }
+
+      // Atualiza badges para todos os pacientes (por enquanto mostra para qualquer paciente que tenha quiz)
+      // Em um sistema real, isso seria vinculado ao paciente específico
+      const badges = {
+        'João Silva': document.getElementById('quizBadgeJoao'),
+        'Maria Oliveira': document.getElementById('quizBadgeMaria'),
+        'Pedro Lima': document.getElementById('quizBadgePedro')
+      };
+
+      // Mostra badge de quiz respondido e nível de urgência
+      Object.keys(badges).forEach(paciente => {
+        const badge = badges[paciente];
+        if (badge) {
+          const urgenciaInfo = formatarUrgencia(quizData.nivelUrgencia || 1);
+          badge.className = `quiz-badge quiz-respondido`;
+          badge.innerHTML = `📋 Quiz respondido • Urgência: ${urgenciaInfo.texto}`;
+          badge.style.display = 'block';
+        }
+      });
+    }
+
+    function filtrarPacientes() {
+      const input = document.getElementById('searchInput');
+      const filter = input.value.toLowerCase();
+      const cards = document.querySelectorAll('.paciente-card');
+      
+      cards.forEach(card => {
+        const nome = card.querySelector('h3').textContent.toLowerCase();
+        if (nome.includes(filter)) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // Carrega badges quando a página carregar
+    document.addEventListener('DOMContentLoaded', function() {
+      atualizarBadgesPacientes();
+    });
+
+    document.getElementById('dataConsulta').min = new Date().toISOString().split('T')[0];
+    document.getElementById('dataReceita').min = new Date().toISOString().split('T')[0];
+  </script>
 </body>
 </html>

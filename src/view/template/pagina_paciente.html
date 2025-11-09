@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Página do Paciente | Saúde+</title>
+  <title>Página do Paciente | Dentrix</title>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -45,6 +45,17 @@
       margin: 0;
     }
 
+    .logo h1 a {
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    .logo h1 a:hover {
+      opacity: 0.8;
+    }
+
     nav ul {
       display: flex;
       list-style: none;
@@ -75,7 +86,6 @@
       gap: 40px;
     }
 
-    /* ===== CARD BASE ===== */
     .card {
       background: var(--card-bg);
       border-radius: var(--radius);
@@ -84,7 +94,7 @@
       transition: 0.3s ease;
     }
 
-    .card:not(#agendamento, #pagamentos):hover {
+    .card:hover {
       transform: translateY(-4px);
       box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
     }
@@ -95,7 +105,6 @@
       margin-bottom: 25px;
     }
 
-    /* ===== PERFIL ===== */
     .perfil-info {
       display: flex;
       align-items: center;
@@ -122,7 +131,6 @@
       color: var(--secondary);
     }
 
-    /* ===== CONSULTAS ===== */
     .consultas-lista {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -154,28 +162,48 @@
       font-size: 13px;
       font-weight: 600;
       color: #fff;
+      margin-bottom: 10px;
     }
 
     .status.confirmada { background: #38a169; }
     .status.pendente { background: #dd6b20; }
+    .status.cancelada { background: #718096; }
 
-  
-    .urgency-display { margin-top: 12px; }
-    .urgency-display p { font-size: 13px; margin: 0 0 5px; color: var(--muted); }
-    .urgency-bar-bg { background: #e2e8f0; border-radius: 10px; height: 8px; overflow: hidden; }
-    .urgency-bar { height: 100%; border-radius: 10px; transition: width 0.5s; }
+    .urgency-display {
+      margin-top: 12px;
+    }
+    .urgency-display p {
+      font-size: 13px;
+      margin: 0 0 5px;
+      color: var(--muted);
+    }
+    .urgency-bar-bg {
+      background: #e2e8f0;
+      border-radius: 10px;
+      height: 8px;
+      overflow: hidden;
+    }
+    .urgency-bar {
+      height: 100%;
+      border-radius: 10px;
+    }
     .urgency-bar.low {
-      width: 20%; background: linear-gradient(90deg, #63b3ed, #4299e1);
+      width: 20%;
+      background: linear-gradient(90deg, #63b3ed, #4299e1);
     }
     .urgency-bar.medium {
-      width: 60%; background: linear-gradient(90deg, #f6ad55, #ed8936);
+      width: 60%;
+      background: linear-gradient(90deg, #f6ad55, #ed8936);
     }
     .urgency-bar.high {
-      width: 100%; background: linear-gradient(90deg, #f56565, #e53e3e);
+      width: 100%;
+      background: linear-gradient(90deg, #f56565, #e53e3e);
     }
 
-    /* ===== PAGAMENTOS ===== */
-    .pagamentos-lista { display: grid; gap: 20px; }
+    .pagamentos-lista {
+      display: grid;
+      gap: 20px;
+    }
     .pagamento-card {
       display: flex;
       justify-content: space-between;
@@ -186,109 +214,186 @@
       border-radius: var(--radius);
       border: 1px solid #e2e8f0;
     }
-    .pagamento-info h4 { margin: 0 0 5px; color: var(--text); }
-    .pagamento-info p { margin: 0; color: var(--muted); font-size: 14px; }
-    .pagamento-info p strong { color: var(--primary); font-size: 16px; }
-    .pagamento-acoes { display: flex; gap: 10px; margin-top: 10px; }
+    .pagamento-info h4 {
+      margin: 0 0 5px;
+      color: var(--text);
+    }
+    .pagamento-info p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .pagamento-info p strong {
+      color: var(--primary);
+      font-size: 16px;
+    }
+    .pagamento-acoes {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
     .pagamento-acoes button {
       padding: 8px 16px;
       font-size: 14px;
       font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      color: white;
     }
-    .btn-pix { background: #38A169 !important; }
-    .btn-boleto { background: #DD6B20 !important; }
-
-    /* ===== AGENDAMENTO ===== */
-    form {
-      display: grid;
-      gap: 20px;
+    .btn-pix {
+      background: #38A169;
+    }
+    .btn-boleto {
+      background: #DD6B20;
     }
 
-    label {
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
       font-weight: 600;
+      margin-bottom: 8px;
       color: var(--text);
+      font-size: 14px;
     }
 
-    select, input {
+    .form-group select,
+    .form-group input[type="date"] {
       width: 100%;
       padding: 12px;
       border: 2px solid #e2e8f0;
       border-radius: 10px;
       font-size: 15px;
+      font-family: inherit;
       outline: none;
       transition: 0.2s;
+      background: white;
     }
 
-    select:focus, input:focus {
+    .form-group select:focus,
+    .form-group input:focus {
       border-color: var(--secondary);
       box-shadow: 0 0 0 3px rgba(49,130,206,0.2);
     }
 
-    /* Nível de Dor/Urgência */
-    .urgency-slider { display: grid; gap: 10px; }
-    .urgency-slider input[type="range"] {
-      -webkit-appearance: none;
-      appearance: none;
+    .slider-container {
+      margin-top: 10px;
+    }
+
+    .slider-wrapper {
+      position: relative;
+      margin-bottom: 10px;
+    }
+
+    .slider {
       width: 100%;
       height: 8px;
-      background: #e2e8f0;
       border-radius: 5px;
+      background: #e2e8f0;
       outline: none;
+      -webkit-appearance: none;
+      appearance: none;
     }
-    .urgency-slider input[type="range"]::-webkit-slider-thumb {
+
+    .slider::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
       width: 20px;
       height: 20px;
+      border-radius: 50%;
       background: var(--secondary);
       cursor: pointer;
-      border-radius: 50%;
-      transition: background 0.2s;
+      transition: all 0.2s;
     }
-    .urgency-slider input[type="range"]::-webkit-slider-thumb:hover { background: var(--primary); }
-    .slider-labels { display: flex; justify-content: space-between; font-size: 13px; color: var(--muted); }
 
-    #horarios, #dentistas { display: none; }
-    #lista-horarios { display: flex; flex-wrap: wrap; gap: 10px; }
-    #lista-horarios button { background: #e2e8f0; color: var(--text); padding: 8px 15px; border-radius: 8px; cursor: pointer; border: none; }
-    #lista-horarios button.active { background: var(--secondary); color: white; }
+    .slider::-webkit-slider-thumb:hover {
+      background: var(--primary);
+      transform: scale(1.1);
+    }
 
-    button {
+    .slider::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
       background: var(--secondary);
-      color: #fff;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+
+    .slider::-moz-range-thumb:hover {
+      background: var(--primary);
+      transform: scale(1.1);
+    }
+
+    .slider-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 5px;
+    }
+
+    .slider-value {
+      text-align: center;
+      font-weight: 600;
+      color: var(--primary);
+      margin-top: 8px;
+      font-size: 16px;
+    }
+
+    .slider-value.dor {
+      color: #e53e3e;
+    }
+
+    .slider-value.urgencia {
+      color: #dd6b20;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      background: var(--secondary);
+      color: white;
       border: none;
       border-radius: 10px;
-      padding: 14px;
+      font-size: 16px;
       font-weight: 600;
       cursor: pointer;
-      transition: 0.3s;
+      transition: all 0.3s;
+      margin-top: 10px;
     }
 
-    button:hover {
+    .btn-submit:hover {
       background: var(--primary);
-      transform: translateY(-1px);
+      transform: translateY(-2px);
       box-shadow: 0 8px 16px rgba(49,130,206,0.3);
     }
-    
-    /* Modal de Pagamento */
-    .modal {
-      display: none; position: fixed; z-index: 1000; left: 0; top: 0;
-      width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.6);
-      justify-content: center; align-items: center;
+
+    .mensagem-sucesso {
+      display: none;
+      padding: 15px;
+      background: #c6f6d5;
+      color: #22543d;
+      border-radius: 10px;
+      margin-top: 15px;
+      text-align: center;
+      font-weight: 600;
     }
-    .modal-content {
-      background: var(--card-bg); border-radius: var(--radius); padding: 30px 40px;
-      width: 90%; max-width: 450px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-      animation: slide-down 0.4s ease-out;
+
+    .mensagem-erro {
+      display: none;
+      padding: 15px;
+      background: #fed7d7;
+      color: #c53030;
+      border-radius: 10px;
+      margin-top: 15px;
+      text-align: center;
+      font-weight: 600;
     }
-    @keyframes slide-down { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-    .payment-content { text-align: center; }
-    .payment-content img.qr-code { width: 200px; height: 200px; margin: 15px auto; display: block; border: 1px solid #ccc; padding: 5px; }
-    .payment-content .barcode { font-family: 'Libre Barcode 39', cursive; font-size: 48px; margin: 20px 0; display: block; }
-    .payment-info-modal { background: #f8fbff; padding: 15px; border-radius: 10px; margin-top: 20px; word-wrap: break-word; }
-    .payment-info-modal p { margin: 5px 0; color: var(--muted); }
-    .payment-info-modal strong { color: var(--text); }
-    .btn-copy { background: var(--muted); color: white; border: none; padding: 8px 12px; border-radius: 8px; cursor: pointer; margin-left: 10px; font-size: 12px; }
 
     footer {
       text-align: center;
@@ -296,26 +401,254 @@
       color: var(--muted);
       font-size: 14px;
     }
-  </style>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-  <link href="https://fonts.googleapis.com/css?family=Libre+Barcode+39&display=swap" rel="stylesheet">
 
+    /* Modal do Quiz */
+    .quiz-modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .quiz-modal-overlay.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .quiz-modal {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 600px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 30px;
+      position: relative;
+      animation: slideUp 0.3s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .quiz-modal-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .quiz-modal-header h2 {
+      color: var(--primary);
+      font-size: 28px;
+      margin: 0 0 10px 0;
+    }
+
+    .quiz-modal-header p {
+      color: var(--muted);
+      font-size: 16px;
+      margin: 0;
+    }
+
+    .quiz-form-group {
+      margin-bottom: 25px;
+    }
+
+    .quiz-form-group label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--text);
+      font-size: 15px;
+    }
+
+    .quiz-form-group select,
+    .quiz-form-group input[type="text"],
+    .quiz-form-group input[type="number"] {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 15px;
+      font-family: inherit;
+      outline: none;
+      transition: 0.2s;
+      background: white;
+    }
+
+    .quiz-form-group select:focus,
+    .quiz-form-group input:focus {
+      border-color: var(--secondary);
+      box-shadow: 0 0 0 3px rgba(49,130,206,0.2);
+    }
+
+    .quiz-radio-group {
+      display: flex;
+      gap: 20px;
+      margin-top: 10px;
+    }
+
+    .quiz-radio-option {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: white;
+    }
+
+    .quiz-radio-option:hover {
+      border-color: var(--secondary);
+      background: #f0f7ff;
+    }
+
+    .quiz-radio-option input[type="radio"] {
+      margin-right: 8px;
+      cursor: pointer;
+    }
+
+    .quiz-radio-option.selected {
+      border-color: var(--secondary);
+      background: #e6f2ff;
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .quiz-slider-container {
+      margin-top: 10px;
+    }
+
+    .quiz-slider-wrapper {
+      position: relative;
+      margin-bottom: 10px;
+    }
+
+    .quiz-slider {
+      width: 100%;
+      height: 8px;
+      border-radius: 5px;
+      background: #e2e8f0;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .quiz-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--secondary);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .quiz-slider::-webkit-slider-thumb:hover {
+      background: var(--primary);
+      transform: scale(1.1);
+    }
+
+    .quiz-slider::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--secondary);
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+
+    .quiz-slider::-moz-range-thumb:hover {
+      background: var(--primary);
+      transform: scale(1.1);
+    }
+
+    .quiz-slider-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 5px;
+    }
+
+    .quiz-slider-value {
+      text-align: center;
+      font-weight: 600;
+      color: var(--primary);
+      margin-top: 8px;
+      font-size: 16px;
+    }
+
+    .quiz-slider-value.urgencia {
+      color: #dd6b20;
+    }
+
+    .quiz-btn-submit {
+      width: 100%;
+      padding: 14px;
+      background: var(--secondary);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 20px;
+    }
+
+    .quiz-btn-submit:hover {
+      background: var(--primary);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(49,130,206,0.3);
+    }
+
+    .quiz-conditional-field {
+      display: none;
+      margin-top: 15px;
+    }
+
+    .quiz-conditional-field.show {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+  </style>
 </head>
 <body>
   <header>
-    <div class="logo"><h1>Dentrix</h1></div>
+    <div class="logo"><h1><a href="index.html">Dentrix</a></h1></div>
     <nav>
       <ul>
         <li><a href="#perfil">Perfil</a></li>
         <li><a href="#consultas">Consultas</a></li>
-        <li><a href="#agendamento">Agendar</a></li>
         <li><a href="#pagamentos">Pagamentos</a></li>
       </ul>
     </nav>
   </header>
 
   <main>
-    <!-- PERFIL -->
     <section id="perfil" class="card">
       <h2>👤 Perfil do Paciente</h2>
       <div class="perfil-info">
@@ -331,387 +664,317 @@
       </div>
     </section>
 
-    <!-- CONSULTAS -->
     <section id="consultas" class="card">
       <h2>📅 Consultas Marcadas</h2>
-      <div class="consultas-lista">
+      <div class="consultas-lista" id="consultasLista">
         <div class="consulta-card">
           <span class="status confirmada">Confirmada</span>
           <h4>Limpeza de Rotina</h4>
           <p><strong>Data:</strong> 25/10/2025</p>
           <p><strong>Hora:</strong> 14:00</p>
           <p><strong>Profissional:</strong> Dra. Camila Ribeiro</p>
+          <p><strong>Valor Pago:</strong> R$ 150,00</p>
           <div class="urgency-display">
             <p>Nível de Urgência: Baixo</p>
             <div class="urgency-bar-bg"><div class="urgency-bar low"></div></div>
           </div>
         </div>
         <div class="consulta-card">
+          <span class="status pendente">Pendente</span>
           <h4>Avaliação de Implante</h4>
-          <span class="status pendente" style="float: right;">Pendente</span>
           <p><strong>Data:</strong> 30/10/2025</p>
           <p><strong>Hora:</strong> 09:30</p>
-          <p><strong>Profissional:</strong> Dra. Maria Silva</p>
+          <p><strong>Profissional:</strong> Dr. Lucas Andrade</p>
           <div class="urgency-display">
             <p>Nível de Urgência: Médio</p>
             <div class="urgency-bar-bg"><div class="urgency-bar medium"></div></div>
           </div>
         </div>
+        <div class="consulta-card">
+          <span class="status confirmada">Confirmada</span>
+          <h4>Clareamento Dental</h4>
+          <p><strong>Data:</strong> 05/11/2025</p>
+          <p><strong>Hora:</strong> 15:00</p>
+          <p><strong>Profissional:</strong> Dra. Renata Melo</p>
+          <p><strong>Valor Pago:</strong> R$ 420,00</p>
+          <div class="urgency-display">
+            <p>Nível de Urgência: Baixo</p>
+            <div class="urgency-bar-bg"><div class="urgency-bar low"></div></div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- PAGAMENTOS -->
     <section id="pagamentos" class="card">
       <h2>💳 Pagamentos Pendentes</h2>
       <div class="pagamentos-lista">
         <div class="pagamento-card">
           <div class="pagamento-info">
-            <h4>Consulta de Limpeza - 25/10/2025</h4>
-            <p><strong>Valor: R$ 150,00</strong></p>
-          </div>
-          <div class="pagamento-acoes">
-            <button class="btn-pix" onclick="abrirModalPagamento('pix', '150.00', '1')">Pagar com PIX</button>
-            <button class="btn-boleto" onclick="abrirModalPagamento('boleto', '150.00', '1')">Gerar Boleto</button>
-          </div>
-        </div>
-        <div class="pagamento-card">
-          <div class="pagamento-info">
-            <h4>Avaliação de Implante - 30/10/2025</h4>
+            <h4>Consulta de Avaliação de Implante - 30/10/2025</h4>
             <p><strong>Valor: R$ 250,00</strong></p>
           </div>
           <div class="pagamento-acoes">
-            <button class="btn-pix" onclick="abrirModalPagamento('pix', '250.00', '2')">Pagar com PIX</button>
-            <button class="btn-boleto" onclick="abrirModalPagamento('boleto', '2')">Gerar Boleto</button>
+            <button class="btn-pix">Pagar com PIX</button>
+            <button class="btn-boleto">Gerar Boleto</button>
           </div>
         </div>
       </div>
-    </section>
-
-    <!-- AGENDAR -->
-    <section id="agendamento" class="card">
-        <h2>Agendar Consulta</h2>
-    <form id="form-agendamento" onsubmit="handleAgendamento(event)">
-      <div>
-        <label for="tipo-consulta">📄 Tipo de Consulta:</label>
-        <select id="tipo-consulta" name="tipo-consulta" required>
-          <option value="" disabled selected>Selecione o motivo</option>
-          <option value="Limpeza">Limpeza / Profilaxia</option>
-          <option value="Restauracao">Restauração</option>
-          <option value="Clareamento">Clareamento Dental</option>
-          <option value="Avaliacao">Avaliação / Orçamento</option>
-          <option value="Urgencia">Atendimento de Urgência</option>
-          <option value="Outro">Outro</option>
-        </select>
-      </div>
-
-      <label for="data-consulta">📅 Escolha o dia:</label>
-      <input type="text" id="data-consulta" name="data-consulta" placeholder="Selecione a data" required>
-
-      <div class="horarios" id="horarios">
-        <label>⏰ Horários disponíveis:</label>
-        <div id="lista-horarios"></div>
-      </div>
-      
-      <div class="urgency-slider">
-        <label for="urgency-level">🚨 Nível de Dor / Urgência:</label>
-        <input type="range" id="urgency-level" name="urgency-level" min="1" max="5" value="1">
-        <div class="slider-labels">
-          <span>Baixo</span>
-          <span>Urgente</span>
-        </div>
-      </div>
-
-      <div class="dentistas" id="dentistas">
-        <label>🦷 Profissionais disponíveis:</label>
-        <div class="opcao">
-          <label>
-            <input type="radio" name="dentista" value="Camila Ribeiro" required>
-            <span></span>
-            <p>Dra. Camila</p>
-          </label>
-        </div>
-        <div class="opcao">
-          <label>
-            <input type="radio" name="dentista" value="Lucas Andrade" required>
-            <span></span>
-            <p>Dr. Lucas</p>
-          </label>
-        </div>
-        <div class="opcao">
-          <label>
-            <input type="radio" name="dentista" value="Renata Melo" required>
-            <span></span>
-            <p>Dra. Renata</p>
-          </label>
-        </div>
-      </div>
-
-      <div id="preco-container" style="display: none; text-align: center; margin-top: 15px; padding: 15px; background: #f0f9ff; border-radius: 10px; border: 1px solid var(--accent);">
-        <h4 style="margin: 0 0 5px; color: var(--primary);">Valor da Consulta:</h4>
-        <p id="preco-valor" style="font-size: 1.8rem; font-weight: 700; color: var(--primary); margin: 0;"></p>
-      </div>
-
-      <button type="submit" class="submit">Confirmar Agendamento</button>
-
-      <p id="mensagem" style="display: none; text-align: center; padding: 10px; border-radius: 8px;"></p>
-    </form>
-     
     </section>
   </main>
 
   <footer>
-    <p>© 2025 Saúde+ | Todos os direitos reservados</p>
+    <p>© 2025 Dentrix | Todos os direitos reservados</p>
   </footer>
 
-  <!-- Modal para Pagamento -->
-  <div id="modalPagamento" class="modal">
-    <div class="modal-content">
-      <div id="payment-container"></div>
-      <button type="button" onclick="fecharModalPagamento()" style="width: 100%; margin-top: 20px;">Fechar</button>
+  <!-- Modal do Quiz -->
+  <div class="quiz-modal-overlay" id="quizModal">
+    <div class="quiz-modal">
+      <div class="quiz-modal-header">
+        <h2>📋 Questionário de Consulta</h2>
+        <p>Por favor, responda algumas perguntas para melhor atendê-lo</p>
+      </div>
+      
+      <form id="quizForm" onsubmit="salvarQuiz(event)">
+        <!-- Pergunta 1: Remédio Controlado -->
+        <div class="quiz-form-group">
+          <label>💊 Você toma remédio controlado?</label>
+          <div class="quiz-radio-group">
+            <label class="quiz-radio-option" onclick="selectRadio(this, 'remedioControlado', 'sim')">
+              <input type="radio" name="remedioControlado" value="sim" required>
+              Sim
+            </label>
+            <label class="quiz-radio-option" onclick="selectRadio(this, 'remedioControlado', 'nao')">
+              <input type="radio" name="remedioControlado" value="nao" required>
+              Não
+            </label>
+          </div>
+        </div>
+
+        <!-- Pergunta 2: Tipo de Tratamento -->
+        <div class="quiz-form-group">
+          <label for="quizTipoTratamento">🦷 Qual é o tipo de tratamento?</label>
+          <select id="quizTipoTratamento" name="tipoTratamento" required>
+            <option value="">Selecione o tipo de tratamento</option>
+            <option value="Limpeza / Profilaxia">Limpeza / Profilaxia</option>
+            <option value="Restauração">Restauração</option>
+            <option value="Canal (Endodontia)">Canal (Endodontia)</option>
+            <option value="Extração">Extração</option>
+            <option value="Clareamento Dental">Clareamento Dental</option>
+            <option value="Ortodontia">Ortodontia</option>
+            <option value="Implante">Implante</option>
+            <option value="Prótese">Prótese</option>
+            <option value="Avaliação / Consulta">Avaliação / Consulta</option>
+            <option value="Atendimento de Urgência">Atendimento de Urgência</option>
+            <option value="Periodontia">Periodontia</option>
+            <option value="Cirurgia Oral">Cirurgia Oral</option>
+          </select>
+        </div>
+
+        <!-- Pergunta 3: Horário Disponível -->
+        <div class="quiz-form-group">
+          <label for="quizHorarioDisponivel">⏰ Qual horário disponível para você?</label>
+          <select id="quizHorarioDisponivel" name="horarioDisponivel" required>
+            <option value="">Selecione o horário</option>
+            <option value="Manhã (08:00 - 12:00)">Manhã (08:00 - 12:00)</option>
+            <option value="Tarde (13:00 - 18:00)">Tarde (13:00 - 18:00)</option>
+            <option value="Qualquer horário">Qualquer horário</option>
+          </select>
+        </div>
+
+        <!-- Pergunta 4: Nível de Urgência -->
+        <div class="quiz-form-group">
+          <label for="quizNivelUrgencia">🚨 Qual o nível de urgência?</label>
+          <div class="quiz-slider-container">
+            <div class="quiz-slider-wrapper">
+              <input type="range" id="quizNivelUrgencia" name="nivelUrgencia" min="1" max="5" value="1" class="quiz-slider" required>
+            </div>
+            <div class="quiz-slider-labels">
+              <span>Baixa</span>
+              <span>Média</span>
+              <span>Alta</span>
+              <span>Muito Alta</span>
+              <span>Emergência</span>
+            </div>
+            <div class="quiz-slider-value urgencia" id="quizValorUrgencia">1 - Baixa</div>
+          </div>
+        </div>
+
+        <!-- Pergunta 5: Tempo de Dor (condicional) -->
+        <div class="quiz-form-group">
+          <label>😣 Você está sentindo dor?</label>
+          <div class="quiz-radio-group">
+            <label class="quiz-radio-option" onclick="toggleDorField(this, 'sim')">
+              <input type="radio" name="temDor" value="sim">
+              Sim
+            </label>
+            <label class="quiz-radio-option" onclick="toggleDorField(this, 'nao')">
+              <input type="radio" name="temDor" value="nao">
+              Não
+            </label>
+          </div>
+          
+          <div class="quiz-conditional-field" id="tempoDorField">
+            <label for="quizTempoDor" style="margin-top: 15px; display: block;">⏱️ A quanto tempo sente dor?</label>
+            <select id="quizTempoDor" name="tempoDor">
+              <option value="">Selecione o tempo</option>
+              <option value="Menos de 1 dia">Menos de 1 dia</option>
+              <option value="1 a 3 dias">1 a 3 dias</option>
+              <option value="4 a 7 dias">4 a 7 dias</option>
+              <option value="1 a 2 semanas">1 a 2 semanas</option>
+              <option value="Mais de 2 semanas">Mais de 2 semanas</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="quiz-btn-submit">✅ Enviar Respostas</button>
+      </form>
     </div>
   </div>
 
-  <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
-
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const horariosDiv = document.getElementById("horarios");
-      const listaHorarios = document.getElementById("lista-horarios");
-      const dentistasDiv = document.getElementById("dentistas");
-      const mensagem = document.getElementById("mensagem");
-      const consultasListaDiv = document.querySelector('.consultas-lista');
-      const pagamentosListaDiv = document.querySelector('.pagamentos-lista');
+    // Funções do Quiz
+    function selectRadio(element, name, value) {
+      // Remove seleção de todos os radio buttons do mesmo grupo
+      const radioGroup = document.querySelectorAll(`input[name="${name}"]`);
+      radioGroup.forEach(radio => {
+        const label = radio.closest('.quiz-radio-option');
+        if (label) {
+          label.classList.remove('selected');
+        }
+      });
+      
+      // Seleciona o radio button clicado
+      const radio = element.querySelector(`input[value="${value}"]`);
+      if (radio) {
+        radio.checked = true;
+        element.classList.add('selected');
+      }
+    }
 
-      // Estrutura de preços por procedimento e dentista
-      const precos = {
-        'Limpeza': { 'Camila Ribeiro': 150.00, 'Lucas Andrade': 140.00, 'Renata Melo': 160.00 },
-        'Restauracao': { 'Camila Ribeiro': 250.00, 'Lucas Andrade': 230.00, 'Renata Melo': 260.00 },
-        'Clareamento': { 'Camila Ribeiro': 400.00, 'Lucas Andrade': 380.00, 'Renata Melo': 420.00 },
-        'Avaliacao': { 'Camila Ribeiro': 100.00, 'Lucas Andrade': 90.00, 'Renata Melo': 110.00 },
-        'Urgencia': { 'Camila Ribeiro': 300.00, 'Lucas Andrade': 280.00, 'Renata Melo': 320.00 },
-        'Outro': { 'Camila Ribeiro': 200.00, 'Lucas Andrade': 180.00, 'Renata Melo': 220.00 }
+    function toggleDorField(element, value) {
+      const tempoDorField = document.getElementById('tempoDorField');
+      const radio = element.querySelector(`input[value="${value}"]`);
+      
+      // Remove seleção de todos os radio buttons
+      document.querySelectorAll('input[name="temDor"]').forEach(r => {
+        const label = r.closest('.quiz-radio-option');
+        if (label) {
+          label.classList.remove('selected');
+        }
+      });
+      
+      if (radio) {
+        radio.checked = true;
+        element.classList.add('selected');
+        
+        if (value === 'sim') {
+          tempoDorField.classList.add('show');
+          document.getElementById('quizTempoDor').required = true;
+        } else {
+          tempoDorField.classList.remove('show');
+          document.getElementById('quizTempoDor').required = false;
+          document.getElementById('quizTempoDor').value = '';
+        }
+      }
+    }
+
+    function salvarQuiz(event) {
+      event.preventDefault();
+      
+      const formData = new FormData(event.target);
+      const quizData = {
+        remedioControlado: formData.get('remedioControlado'),
+        tipoTratamento: formData.get('tipoTratamento'),
+        horarioDisponivel: formData.get('horarioDisponivel'),
+        nivelUrgencia: parseInt(formData.get('nivelUrgencia')),
+        temDor: formData.get('temDor'),
+        tempoDor: formData.get('tempoDor') || null,
+        dataResposta: new Date().toISOString()
       };
+      
+      // Salva no localStorage
+      localStorage.setItem('quizPaciente', JSON.stringify(quizData));
+      localStorage.setItem('quizRespondido', 'true');
+      
+      // Fecha o modal
+      document.getElementById('quizModal').classList.remove('active');
+      
+      // Mostra mensagem de sucesso
+      alert('✅ Obrigado! Suas respostas foram salvas com sucesso.');
+    }
 
-      // Carrega dados do localStorage
-      let consultas = JSON.parse(localStorage.getItem('consultasPaciente')) || [];
-      let pagamentos = JSON.parse(localStorage.getItem('pagamentosPaciente')) || [];
-
-      const horariosDisponiveis = ["09:00", "10:00", "11:00", "13:00", "14:00", "15:00", "16:00"];
-
-      flatpickr("#data-consulta", {
-        dateFormat: "d/m/Y",
-        minDate: "today",
-        locale: "pt",
-        disableMobile: true,
-        onChange: function() {
-          horariosDiv.style.display = "grid";
-          dentistasDiv.style.display = "none";
-          document.getElementById("preco-container").style.display = "none"; // Esconde preço
-          listaHorarios.innerHTML = "";
-
-          horariosDisponiveis.forEach(hora => {
-            const btn = document.createElement("button");
-            btn.textContent = hora;
-            btn.type = "button";
-            btn.addEventListener("click", () => {
-              document.querySelectorAll("#lista-horarios button").forEach(b => b.classList.remove("active"));
-              btn.classList.add("active");
-              dentistasDiv.style.display = "block";
-            });
-            listaHorarios.appendChild(btn);
-          });
-        }
-      });
-
-      // Adiciona listener para os botões de rádio dos dentistas
-      document.querySelectorAll('input[name="dentista"]').forEach(radio => {
-        radio.addEventListener('change', () => {
-          const tipoConsulta = document.getElementById("tipo-consulta").value;
-          const dentistaSelecionado = document.querySelector('input[name="dentista"]:checked').value;
-          const precoContainer = document.getElementById("preco-container");
-          const precoValor = document.getElementById("preco-valor");
-
-          if (tipoConsulta && dentistaSelecionado && precos[tipoConsulta] && precos[tipoConsulta][dentistaSelecionado] !== undefined) {
-            const valor = precos[tipoConsulta][dentistaSelecionado];
-            precoValor.textContent = `R$ ${valor.toFixed(2).replace('.', ',')}`;
-            precoContainer.style.display = "block";
-          } else {
-            precoContainer.style.display = "none";
-          }
-        });
-      });
-
-      // Esconde o preço se o tipo de consulta mudar
-      document.getElementById("tipo-consulta").addEventListener('change', () => { document.getElementById("preco-container").style.display = "none"; });
-
-      window.handleAgendamento = function(e) {
-        e.preventDefault();
-        const form = document.getElementById("form-agendamento");
-        const tipo = document.getElementById("tipo-consulta").value;
-        const data = document.getElementById("data-consulta").value;
-        const hora = document.querySelector("#lista-horarios button.active")?.textContent;
-        const dentista = document.querySelector("input[name='dentista']:checked")?.value;
-        const urgenciaValue = document.getElementById("urgency-level").value;
-
-        if (!tipo || !hora || !dentista) {
-          mensagem.style.display = "block";
-          mensagem.style.background = "#fed7d7";
-          mensagem.style.color = "#c53030";
-          mensagem.textContent = "⚠️ Por favor, selecione todos os campos para agendar.";
-          return;
-        }
-
-        const valorConsulta = precos[tipo][dentista];
-
-        const novaConsulta = {
-          id: Date.now(),
-          tipo, data, hora, dentista, urgencia: urgenciaValue, valor: valorConsulta, status: 'pendente'
-        };
-
-        const novoPagamento = {
-          consultaId: novaConsulta.id,
-          descricao: `Consulta de ${tipo} - ${data}`,
-          valor: valorConsulta.toFixed(2)
-        };
-
-        consultas.push(novaConsulta);
-        pagamentos.push(novoPagamento);
-
-        localStorage.setItem('consultasPaciente', JSON.stringify(consultas));
-        localStorage.setItem('pagamentosPaciente', JSON.stringify(pagamentos));
-
-        renderizarConsultas();
-        renderizarPagamentos();
-
-        mensagem.style.display = "block";
-        mensagem.style.background = "#c6f6d5";
-        mensagem.style.color = "#2f855a";
-        mensagem.textContent = `✅ Agendamento confirmado! Um novo pagamento foi gerado.`;
-        form.reset();
-        horariosDiv.style.display = "none";
-        dentistasDiv.style.display = "none";
-        document.getElementById("preco-container").style.display = "none";
+    function verificarQuiz() {
+      const quizRespondido = localStorage.getItem('quizRespondido');
+      
+      // Se o quiz ainda não foi respondido, mostra o modal
+      if (!quizRespondido || quizRespondido !== 'true') {
+        document.getElementById('quizModal').classList.add('active');
       }
+    }
 
-      function renderizarConsultas() {
-        consultasListaDiv.innerHTML = '';
-        if (consultas.length === 0) {
-          consultasListaDiv.innerHTML = '<p>Nenhuma consulta agendada.</p>';
-          return;
-        }
-        consultas.forEach(c => {
-          let urgenciaClass = 'low';
-          let urgenciaTexto = 'Baixo';
-          if (c.urgencia > 3) { urgenciaClass = 'high'; urgenciaTexto = 'Urgente'; }
-          else if (c.urgencia > 1) { urgenciaClass = 'medium'; urgenciaTexto = 'Médio'; }
-
-          const cardHtml = `
-            <div class="consulta-card">
-              ${c.status === 'confirmada' 
-                ? '<span class="status confirmada">Confirmada</span>' 
-                : '<span class="status pendente" style="float: right;">Pendente</span>'
-              }
-              <h4>${c.tipo}</h4>
-              <p><strong>Data:</strong> ${c.data}</p>
-              <p><strong>Hora:</strong> ${c.hora}</p>
-              <p><strong>Profissional:</strong> ${c.dentista}</p>
-              ${c.status === 'confirmada' ? `<p><strong>Valor Pago:</strong> R$ ${c.valor.toFixed(2).replace('.', ',')}</p>` : ''}
-              <div class="urgency-display">
-                <p>Nível de Urgência: ${urgenciaTexto}</p>
-                <div class="urgency-bar-bg"><div class="urgency-bar ${urgenciaClass}"></div></div>
-              </div>
-            </div>
-          `;
-          consultasListaDiv.innerHTML += cardHtml;
+    // Verifica e mostra o quiz quando a página carregar
+    document.addEventListener('DOMContentLoaded', function() {
+      // Atualiza o valor do slider de urgência no quiz
+      const quizNivelUrgenciaSlider = document.getElementById('quizNivelUrgencia');
+      const quizValorUrgenciaDisplay = document.getElementById('quizValorUrgencia');
+      
+      if (quizNivelUrgenciaSlider && quizValorUrgenciaDisplay) {
+        quizNivelUrgenciaSlider.addEventListener('input', function() {
+          const valor = parseInt(this.value);
+          const textos = ['', '1 - Baixa', '2 - Média', '3 - Alta', '4 - Muito Alta', '5 - Emergência'];
+          quizValorUrgenciaDisplay.textContent = textos[valor];
         });
       }
-
-      function renderizarPagamentos() {
-        pagamentosListaDiv.innerHTML = '';
-        if (pagamentos.length === 0) {
-          pagamentosListaDiv.innerHTML = '<p>Nenhum pagamento pendente.</p>';
-          return;
-        }
-        pagamentos.forEach(p => {
-          const cardHtml = `
-            <div class="pagamento-card">
-              <div class="pagamento-info">
-                <h4>${p.descricao}</h4>
-                <p><strong>Valor: R$ ${p.valor}</strong></p>
-              </div>
-              <div class="pagamento-acoes">
-            <button class="btn-pix" onclick="abrirModalPagamento('pix', '${p.valor}', '${p.consultaId}')">Pagar com PIX</button>
-            <button class="btn-boleto" onclick="abrirModalPagamento('boleto', '${p.valor}', '${p.consultaId}')">Gerar Boleto</button>
-              </div>
-            </div>
-          `;
-          pagamentosListaDiv.innerHTML += cardHtml;
-        });
-      }
-
-      // Funções do Modal de Pagamento (globais para o onclick funcionar)
-      const modalPagamento = document.getElementById("modalPagamento");
-      const paymentContainer = document.getElementById('payment-container');
-
-      window.abrirModalPagamento = function(tipo, valor, consultaId) {
-        if (tipo === 'pix') {
-          paymentContainer.innerHTML = `
-            <div class="payment-content">
-              <h3>Pagamento de R$ ${valor} via PIX</h3>
-              <p>Aponte a câmera do seu celular para o QR Code</p>
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/QR_code_for_mobile_English_Wikipedia.svg/1200px-QR_code_for_mobile_English_Wikipedia.svg.png" alt="QR Code" class="qr-code">
-              <div class="payment-info-modal">
-                <p><strong>Ou use a chave PIX (Copia e Cola):</strong></p>
-                <p>99.123.456/0001-78 <button class="btn-copy" onclick="copiarTexto('99.123.456/0001-78')">Copiar</button></p>
-              </div>
-              <button onclick="confirmarPagamento(${consultaId})" style="width: 100%; margin-top: 20px; background: var(--primary);">Pagamento Enviado</button>
-            </div>
-          `;
-        } else if (tipo === 'boleto') {
-          paymentContainer.innerHTML = `
-            <div class="payment-content">
-              <h3>Boleto de R$ ${valor}</h3>
-              <p>Use o código de barras no seu app do banco</p>
-              <div class="barcode">*123456789012345*</div>
-              <div class="payment-info-modal">
-                <p><strong>Linha Digitável:</strong></p>
-                <p>12345.67890 12345.678901 23456.789012 3 12345678901234 <button class="btn-copy" onclick="copiarTexto('12345.67890 12345.678901 23456.789012 3 12345678901234')">Copiar</button></p>
-              </div>
-              <button onclick="confirmarPagamento(${consultaId})" style="width: 100%; margin-top: 20px; background: var(--primary);">Pagamento Enviado</button>
-            </div>
-          `;
-        }
-        modalPagamento.style.display = "flex";
-      }
-
-      window.confirmarPagamento = function(consultaId) {
-        // Encontra a consulta e atualiza o status
-        const consultaIndex = consultas.findIndex(c => c.id == consultaId);
-        if (consultaIndex !== -1) {
-          consultas[consultaIndex].status = 'confirmada';
-        }
-
-        // Remove o pagamento da lista de pendentes
-        pagamentos = pagamentos.filter(p => p.consultaId != consultaId);
-
-        // Salva e renderiza novamente
-        localStorage.setItem('consultasPaciente', JSON.stringify(consultas));
-        localStorage.setItem('pagamentosPaciente', JSON.stringify(pagamentos));
-        renderizarConsultas();
-        renderizarPagamentos();
-        fecharModalPagamento();
-        alert('Pagamento confirmado com sucesso! Sua consulta está garantida.');
-      }
-
-      window.fecharModalPagamento = function() { modalPagamento.style.display = "none"; }
-      window.copiarTexto = function(texto) { navigator.clipboard.writeText(texto).then(() => alert('Copiado para a área de transferência!')); }
-
-      // Renderização inicial
-      renderizarConsultas();
-      renderizarPagamentos();
+      
+      verificarQuiz();
     });
+
+    function carregarConsultas() {
+      const consultas = JSON.parse(localStorage.getItem('consultasPaciente')) || [];
+      const consultasLista = document.getElementById('consultasLista');
+      
+      if (consultas.length === 0) {
+        return;
+      }
+
+      consultas.forEach(c => {
+        let urgenciaClass = 'low';
+        let urgenciaTexto = 'Baixo';
+        
+        if (c.nivelUrgencia >= 5) {
+          urgenciaClass = 'high';
+          urgenciaTexto = 'Emergência';
+        } else if (c.nivelUrgencia >= 4) {
+          urgenciaClass = 'high';
+          urgenciaTexto = 'Muito Alta';
+        } else if (c.nivelUrgencia >= 3) {
+          urgenciaClass = 'medium';
+          urgenciaTexto = 'Alta';
+        } else if (c.nivelUrgencia >= 2) {
+          urgenciaClass = 'medium';
+          urgenciaTexto = 'Média';
+        }
+
+        const card = document.createElement('div');
+        card.className = 'consulta-card';
+        card.innerHTML = `
+          <span class="status ${c.status === 'confirmada' ? 'confirmada' : 'pendente'}">${c.status === 'confirmada' ? 'Confirmada' : 'Pendente'}</span>
+          <h4>${c.tipo}</h4>
+          <p><strong>Data:</strong> ${c.data}</p>
+          <p><strong>Hora:</strong> ${c.hora}</p>
+          <p><strong>Profissional:</strong> ${c.profissional}</p>
+          ${c.status === 'confirmada' ? `<p><strong>Valor Pago:</strong> R$ ${c.valor.toFixed(2).replace('.', ',')}</p>` : `<p><strong>Valor:</strong> R$ ${c.valor.toFixed(2).replace('.', ',')}</p>`}
+          ${c.nivelDor !== undefined ? `<p><strong>Nível de Dor:</strong> ${c.nivelDor}/10</p>` : ''}
+          <div class="urgency-display">
+            <p>Nível de Urgência: ${urgenciaTexto}</p>
+            <div class="urgency-bar-bg"><div class="urgency-bar ${urgenciaClass}"></div></div>
+          </div>
+        `;
+        consultasLista.appendChild(card);
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', carregarConsultas);
   </script>
 </body>
 </html>
