@@ -681,6 +681,24 @@
       font-weight: 600;
     }
 
+    /* Estilo para a informação do tratamento */
+    #infoTratamento {
+      display: none;
+      margin-top: 15px;
+      padding: 15px;
+      background: #f0f7ff;
+      border-left: 4px solid var(--secondary);
+      border-radius: 8px;
+      animation: fadeIn 0.4s ease;
+    }
+    #infoTratamento p {
+      margin: 0;
+      font-size: 15px;
+      color: var(--text);
+    }
+    #infoTratamento strong {
+      color: var(--primary);
+    }
     /* Modal de Pagamento */
     .pagamento-modal-overlay {
       display: none;
@@ -861,30 +879,8 @@
       </div>
     </section>
 
-    <!-- ADICIONADO PARA [CASO DE USO - PESQUISAR DISPONIBILIDADE DE DENTISTAS] -->
-    <section id="pesquisa-dentistas" class="card" style="margin-bottom: 30px;">
-      <h2>🔍 Pesquisar Disponibilidade de Dentistas</h2>
-      <div class="form-group">
-        <label for="dataPesquisa">Data desejada:</label>
-        <input type="date" id="dataPesquisa" style="width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 15px; font-family: inherit;">
-      </div>
-      <div class="form-group">
-        <label for="especialidadePesquisa">Especialidade (opcional):</label>
-        <select id="especialidadePesquisa" style="width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 15px; font-family: inherit;">
-          <option value="">Todas</option>
-          <option value="Ortodontia">Ortodontia</option>
-          <option value="Implantodontia">Implantodontia</option>
-          <option value="Estética">Estética</option>
-          <option value="Periodontia">Periodontia</option>
-          <option value="Endodontia">Endodontia</option>
-        </select>
-      </div>
-      <button class="btn-submit" onclick="pesquisarDisponibilidadeDentistas()">Pesquisar Disponibilidade</button>
-    </section>
-
     <section id="consultas" class="card">
       <h2>📅 Consultas Marcadas</h2>
-      <!-- ADICIONADO PARA [CASO DE USO - GERENCIAR CONSULTAS] -->
       <div class="consultas-lista" id="consultasLista">
         <div class="consulta-card">
           <span class="status confirmada">Confirmada</span>
@@ -897,8 +893,6 @@
             <p>Nível de Urgência: Baixo</p>
             <div class="urgency-bar-bg"><div class="urgency-bar low"></div></div>
           </div>
-          <!-- ADICIONADO PARA [CASO DE USO - REAGENDAR CONSULTA (EXTEND)] -->
-          <button onclick="reagendarConsulta(1)" style="margin-top: 10px; padding: 8px 16px; background: var(--secondary); color: white; border: none; border-radius: 8px; cursor: pointer;">Reagendar</button>
         </div>
         <div class="consulta-card">
           <span class="status pendente">Pendente</span>
@@ -910,8 +904,6 @@
             <p>Nível de Urgência: Médio</p>
             <div class="urgency-bar-bg"><div class="urgency-bar medium"></div></div>
           </div>
-          <!-- ADICIONADO PARA [CASO DE USO - REAGENDAR CONSULTA (EXTEND)] -->
-          <button onclick="reagendarConsulta(2)" style="margin-top: 10px; padding: 8px 16px; background: var(--secondary); color: white; border: none; border-radius: 8px; cursor: pointer;">Reagendar</button>
         </div>
         <div class="consulta-card">
           <span class="status confirmada">Confirmada</span>
@@ -926,6 +918,8 @@
           </div>
         </div>
       </div>
+
+      <button class="btn-submit" onclick="marcarNovaConsulta()" style="margin-top: 20px;">Marcar nova consulta</button>
     </section>
 
     <section id="pagamentos" class="card">
@@ -992,6 +986,9 @@
             <option value="Cirurgia Oral">Cirurgia Oral</option>
           </select>
         </div>
+
+        <!-- Informação do Tratamento (Dentista e Preço) -->
+        <div id="infoTratamento"></div>
 
         <!-- Pergunta 3: Horário Disponível -->
         <div class="quiz-form-group">
@@ -1127,55 +1124,48 @@
     </div>
   </div>
 
-  <!-- ADICIONADO PARA [DIAGRAMA DE CLASSES E CASOS DE USO] -->
-  <script src="models.js"></script>
-  <script src="services.js"></script>
-  <script src="init-data.js"></script>
-  
   <script>
-    // ADICIONADO PARA [CASO DE USO - PESQUISAR DISPONIBILIDADE DE DENTISTAS]
-    function pesquisarDisponibilidadeDentistas() {
-      const data = document.getElementById('dataPesquisa').value;
-      const especialidade = document.getElementById('especialidadePesquisa').value;
-      
-      if (!data) {
-        alert('Por favor, selecione uma data para pesquisa.');
-        return;
-      }
-
-      const pacienteService = ServiceFactory.getService(Roles.PACIENTE);
-      const dentistasDisponiveis = pacienteService.pesquisarDisponibilidadeDentistas(data, especialidade);
-      
-      // Exibir resultados (implementação simplificada)
-      console.log('Dentistas disponíveis:', dentistasDisponiveis);
-      alert(`Encontrados ${dentistasDisponiveis.length} dentista(s) disponível(eis) para a data selecionada.`);
+    // Função para reabrir o quiz
+    function marcarNovaConsulta() {
+      document.getElementById('quizModal').classList.add('active');
     }
 
-    // ADICIONADO PARA [CASO DE USO - REAGENDAR CONSULTA (EXTEND)]
-    function reagendarConsulta(consultaId) {
-      const novaData = prompt('Digite a nova data (YYYY-MM-DD):');
-      const novaHora = prompt('Digite a nova hora (HH:MM):');
-      
-      if (!novaData || !novaHora) {
-        alert('Data e hora são obrigatórias.');
-        return;
-      }
+    // Mapeamento de tratamentos para dentistas e preços
+    const tratamentosInfo = {
+      "Limpeza / Profilaxia": { dentista: "Dra. Camila Ribeiro", preco: 150.00 },
+      "Restauração": { dentista: "Dra. Camila Ribeiro", preco: 200.00 },
+      "Canal (Endodontia)": { dentista: "Dr. Lucas Andrade", preco: 800.00 },
+      "Extração": { dentista: "Dr. Lucas Andrade", preco: 350.00 },
+      "Clareamento Dental": { dentista: "Dra. Renata Mello", preco: 420.00 },
+      "Ortodontia": { dentista: "Dra. Camila Ribeiro", preco: 250.00 }, // Avaliação
+      "Implante": { dentista: "Dr. Lucas Andrade", preco: 2500.00 },
+      "Prótese": { dentista: "Dr. Lucas Andrade", preco: 1200.00 },
+      "Avaliação / Consulta": { dentista: "Qualquer profissional", preco: 100.00 },
+      "Atendimento de Urgência": { dentista: "Qualquer profissional", preco: 300.00 },
+      "Periodontia": { dentista: "Dra. Camila Ribeiro", preco: 400.00 },
+      "Cirurgia Oral": { dentista: "Dr. Lucas Andrade", preco: 600.00 }
+    };
 
-      const pacienteId = 1; // Em produção, obter do usuário logado
-      const pacienteService = ServiceFactory.getService(Roles.PACIENTE);
+    // Função para exibir informações do tratamento
+    document.getElementById('quizTipoTratamento').addEventListener('change', function() {
+      const tipoTratamento = this.value;
+      const infoDiv = document.getElementById('infoTratamento');
       
-      try {
-        const consulta = pacienteService.reagendarConsulta(pacienteId, consultaId, novaData, novaHora);
-        if (consulta) {
-          alert('Consulta reagendada com sucesso!');
-          window.location.reload();
-        } else {
-          alert('Consulta não encontrada.');
-        }
-      } catch (error) {
-        alert('Erro ao reagendar consulta: ' + error.message);
+      if (tipoTratamento && tratamentosInfo[tipoTratamento]) {
+        const info = tratamentosInfo[tipoTratamento];
+        const precoFormatado = info.preco.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        
+        infoDiv.innerHTML = `
+          <p><strong>Profissional recomendado:</strong> ${info.dentista}</p>
+          <p><strong>Valor estimado:</strong> ${precoFormatado}</p>
+        `;
+        infoDiv.style.display = 'block';
+      } else {
+        infoDiv.style.display = 'none';
+        infoDiv.innerHTML = '';
       }
-    }
+    });
+
 
     // Funções do Quiz
     function atualizarEstiloCheckbox(checkbox) {
@@ -1295,7 +1285,6 @@
       document.getElementById('btnConfirmarPagamento').disabled = false;
     }
 
-    // ADICIONADO PARA [CASO DE USO - REALIZAR PAGAMENTO]
     // Handler do formulário de pagamento
     document.getElementById('pagamentoForm').addEventListener('submit', function(event) {
       event.preventDefault();
@@ -1308,57 +1297,58 @@
         return;
       }
       
-      // ADICIONADO PARA [CASO DE USO - REALIZAR PAGAMENTO]
-      const pacienteService = ServiceFactory.getService(Roles.PACIENTE);
-      const consultaId = 2; // Em produção, obter da consulta selecionada
-      const valor = 250.00; // Em produção, obter do valor da consulta
-      
-      try {
-        const pagamento = pacienteService.realizarPagamento(consultaId, metodoPagamento, valor);
+      // Simula o processamento do pagamento
+      if (metodoPagamento === 'pix') {
+        // Gera código PIX simulado
+        const codigoPix = '00020126360014BR.GOV.BCB.PIX0114+55119999999995204000053039865802BR5913DENTRIX CLINIC6009SAO PAULO62070503***6304' + Math.random().toString(36).substr(2, 4).toUpperCase();
         
-        // Simula o processamento do pagamento
-        if (metodoPagamento === 'pix') {
-          // Gera código PIX simulado
-          const codigoPix = '00020126360014BR.GOV.BCB.PIX0114+55119999999995204000053039865802BR5913DENTRIX CLINIC6009SAO PAULO62070503***6304' + Math.random().toString(36).substr(2, 4).toUpperCase();
-          
-          // Copia para área de transferência (se possível)
-          if (navigator.clipboard) {
-            navigator.clipboard.writeText(codigoPix).then(() => {
-              alert('✅ Código PIX copiado para a área de transferência!\n\n' + 
-                    'Código: ' + codigoPix + '\n\n' +
-                    'Abra o app do seu banco e cole o código para realizar o pagamento.');
-            }).catch(() => {
-              alert('✅ Código PIX gerado!\n\n' + codigoPix + '\n\n' +
-                    'Copie este código e use no app do seu banco para realizar o pagamento.');
-            });
-          } else {
+        // Copia para área de transferência (se possível)
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(codigoPix).then(() => {
+            alert('✅ Código PIX copiado para a área de transferência!\n\n' + 
+                  'Código: ' + codigoPix + '\n\n' +
+                  'Abra o app do seu banco e cole o código para realizar o pagamento.');
+          }).catch(() => {
             alert('✅ Código PIX gerado!\n\n' + codigoPix + '\n\n' +
                   'Copie este código e use no app do seu banco para realizar o pagamento.');
-          }
-        } else if (metodoPagamento === 'boleto') {
-          // Gera código de barras simulado
-          const codigoBarras = '34191' + Math.random().toString().substr(2, 5) + 
-                             '0' + Math.random().toString().substr(2, 10) + 
-                             Math.random().toString().substr(2, 10) + 
-                             Math.random().toString().substr(2, 1);
-          
-          alert('✅ Boleto gerado com sucesso!\n\n' +
-                'Código de barras: ' + codigoBarras + '\n\n' +
-                'O boleto vence em 3 dias úteis. Você pode pagar em qualquer banco ou lotérica.');
+          });
+        } else {
+          alert('✅ Código PIX gerado!\n\n' + codigoPix + '\n\n' +
+                'Copie este código e use no app do seu banco para realizar o pagamento.');
         }
+      } else if (metodoPagamento === 'boleto') {
+        // Gera código de barras simulado
+        const codigoBarras = '34191' + Math.random().toString().substr(2, 5) + 
+                           '0' + Math.random().toString().substr(2, 10) + 
+                           Math.random().toString().substr(2, 10) + 
+                           Math.random().toString().substr(2, 1);
         
-        // Fecha o modal de pagamento
-        document.getElementById('pagamentoModal').classList.remove('active');
-        
-        // Mostra mensagem de sucesso
-        setTimeout(() => {
-          alert('✅ Processo de pagamento iniciado! Verifique as instruções acima.');
-          // Recarrega a página para atualizar a lista de pagamentos
-          window.location.reload();
-        }, 100);
-      } catch (error) {
-        alert('Erro ao processar pagamento: ' + error.message);
+        alert('✅ Boleto gerado com sucesso!\n\n' +
+              'Código de barras: ' + codigoBarras + '\n\n' +
+              'O boleto vence em 3 dias úteis. Você pode pagar em qualquer banco ou lotérica.');
       }
+      
+      // Salva informação do pagamento
+      const pagamentoData = {
+        metodo: metodoPagamento,
+        valor: 250.00,
+        data: new Date().toISOString(),
+        status: metodoPagamento === 'pix' ? 'pendente' : 'aguardando'
+      };
+      
+      const pagamentos = JSON.parse(localStorage.getItem('pagamentosPaciente')) || [];
+      pagamentos.push(pagamentoData);
+      localStorage.setItem('pagamentosPaciente', JSON.stringify(pagamentoData));
+      
+      // Fecha o modal de pagamento
+      document.getElementById('pagamentoModal').classList.remove('active');
+
+      // Mostra mensagem de sucesso
+      setTimeout(() => {
+        alert('✅ Pagamento bem-sucedido!');
+        // Recarrega a página para atualizar o status
+        window.location.reload();
+      }, 100);
     });
 
     function verificarQuiz() {

@@ -122,7 +122,7 @@ Free HTML CSS Template
             if (contactForm) {
                 contactForm.addEventListener('submit', (e) => {
                     e.preventDefault();
-                    alert('Thank you for reaching out! We will get back to you soon.');
+                    alert('Sua mensagem foi enviada com sucesso! Retornaremos em breve.');
                     e.target.reset();
                 });
             }
@@ -186,7 +186,7 @@ function handleSignup(event) {
     const confirmPassword = document.getElementById('confirm_password').value;
 
     if (senha === confirmPassword) {
-        alert(`Cadastro bem-sucedido! Bem-vindo, ${name}`);
+        alert(`Cadastro realizado com sucesso! Bem-vindo(a), ${name}!`);
         window.location.href = "pagina_paciente.html"; // Ou outro redirecionamento
     } else {
         alert("As senhas não coincidem. Tente novamente.");
