@@ -56,11 +56,6 @@ function abrirModal(modalId) {
     editIndex = null;
   } else if (modalId === "modalAgenda") {
     carregarAgendaDentista();
-  } else if (modalId === "modalChat") {
-    carregarMensagensRecepcionista();
-    // Auto-refresh a cada 2 segundos
-    if (window.chatIntervalRecepcionista) clearInterval(window.chatIntervalRecepcionista);
-    window.chatIntervalRecepcionista = setInterval(carregarMensagensRecepcionista, 2000);
   }
 }
 
@@ -68,9 +63,6 @@ function abrirModal(modalId) {
 function fecharModal(modalId) {
   if (!modalId) modalId = "modalConsulta";
   document.getElementById(modalId).style.display = "none";
-  if (modalId === "modalChat" && window.chatIntervalRecepcionista) {
-    clearInterval(window.chatIntervalRecepcionista);
-  }
 }
 
 // Salva nova consulta ou edita existente
@@ -152,62 +144,10 @@ function carregarAgendaDentista() {
   }).join('');
 }
 
-// Funções de Chat
-function enviarMensagemRecepcionista(event) {
-  event.preventDefault();
-  const input = document.getElementById('mensagemInputRecepcionista');
-  const mensagem = input.value.trim();
-  
-  if (!mensagem) return;
-
-  const mensagemData = {
-    remetente: 'Recepcionista',
-    texto: mensagem,
-    data: new Date().toISOString(),
-    id: Date.now()
-  };
-
-  const mensagens = JSON.parse(localStorage.getItem('chatDentistaRecepcionista')) || [];
-  mensagens.push(mensagemData);
-  localStorage.setItem('chatDentistaRecepcionista', JSON.stringify(mensagens));
-
-  input.value = '';
-  carregarMensagensRecepcionista();
-}
-
-function carregarMensagensRecepcionista() {
-  const mensagens = JSON.parse(localStorage.getItem('chatDentistaRecepcionista')) || [];
-  const container = document.getElementById('chatMessagesRecepcionista');
-  
-  if (mensagens.length === 0) {
-    container.innerHTML = '<p style="text-align: center; color: var(--muted);">Nenhuma mensagem ainda. Inicie a conversa!</p>';
-    return;
-  }
-
-  container.innerHTML = mensagens.map(msg => {
-    const dataFormatada = new Date(msg.data).toLocaleString('pt-BR');
-    const isRecepcionista = msg.remetente === 'Recepcionista';
-    return `
-      <div style="display: flex; ${isRecepcionista ? 'justify-content: flex-end' : 'justify-content: flex-start'};">
-        <div style="max-width: 70%; background: ${isRecepcionista ? 'var(--secondary)' : 'white'}; color: ${isRecepcionista ? 'white' : 'var(--text)'}; padding: 12px 16px; border-radius: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-          <div style="font-weight: 600; font-size: 12px; margin-bottom: 5px; opacity: 0.9;">${msg.remetente}</div>
-          <div style="font-size: 15px;">${msg.texto}</div>
-          <div style="font-size: 11px; margin-top: 5px; opacity: 0.7;">${dataFormatada}</div>
-        </div>
-      </div>
-    `;
-  }).join('');
-  
-  container.scrollTop = container.scrollHeight;
-}
-
 // Fechar modais ao clicar fora
 window.onclick = function(event) {
   if (event.target.classList.contains('modal')) {
     event.target.style.display = 'none';
-    if (event.target.id === 'modalChat' && window.chatIntervalRecepcionista) {
-      clearInterval(window.chatIntervalRecepcionista);
-    }
   }
 };
 

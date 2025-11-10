@@ -141,7 +141,6 @@
       <a href="index.html" class="logo">Dentrix</a>
       <nav class="nav-links">
         <a href="#" class="nav-link" onclick="abrirModal('modalAgenda'); return false;">📅 Ver Agenda</a>
-        <a href="#" class="nav-link" onclick="abrirModal('modalChat'); return false;">💬 Chat com Dentista</a>
         <a href="index.html" class="nav-link sair">Sair</a>
       </nav>
     </div>
@@ -286,20 +285,6 @@
         <div class="modal-buttons" style="margin-top: 20px;">
           <button type="button" onclick="fecharModal('modalAgenda')">Fechar</button>
         </div>
-      </div>
-    </div>
-
-    <!-- Modal: Chat com Dentista -->
-    <div id="modalChat" class="modal">
-      <div class="modal-content" style="max-width: 600px; height: 80vh; display: flex; flex-direction: column;">
-        <h3>💬 Chat com Dentista</h3>
-        <div id="chatMessagesRecepcionista" style="flex: 1; overflow-y: auto; padding: 20px; background: #f8fbff; border-radius: 8px; margin: 20px 0; display: flex; flex-direction: column; gap: 15px;">
-          <!-- Mensagens serão adicionadas aqui -->
-        </div>
-        <form id="formChatRecepcionista" onsubmit="enviarMensagemRecepcionista(event)" style="display: flex; gap: 10px;">
-          <input type="text" id="mensagemInputRecepcionista" placeholder="Digite sua mensagem..." style="flex: 1; padding: 12px; border: 2px solid #e2e8f0; border-radius: 8px; font-size: 15px;" required />
-          <button type="submit" style="padding: 12px 24px; background: var(--secondary); color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">Enviar</button>
-        </form>
       </div>
     </div>
 
