@@ -861,8 +861,30 @@
       </div>
     </section>
 
+    <!-- ADICIONADO PARA [CASO DE USO - PESQUISAR DISPONIBILIDADE DE DENTISTAS] -->
+    <section id="pesquisa-dentistas" class="card" style="margin-bottom: 30px;">
+      <h2>🔍 Pesquisar Disponibilidade de Dentistas</h2>
+      <div class="form-group">
+        <label for="dataPesquisa">Data desejada:</label>
+        <input type="date" id="dataPesquisa" style="width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 15px; font-family: inherit;">
+      </div>
+      <div class="form-group">
+        <label for="especialidadePesquisa">Especialidade (opcional):</label>
+        <select id="especialidadePesquisa" style="width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 10px; font-size: 15px; font-family: inherit;">
+          <option value="">Todas</option>
+          <option value="Ortodontia">Ortodontia</option>
+          <option value="Implantodontia">Implantodontia</option>
+          <option value="Estética">Estética</option>
+          <option value="Periodontia">Periodontia</option>
+          <option value="Endodontia">Endodontia</option>
+        </select>
+      </div>
+      <button class="btn-submit" onclick="pesquisarDisponibilidadeDentistas()">Pesquisar Disponibilidade</button>
+    </section>
+
     <section id="consultas" class="card">
       <h2>📅 Consultas Marcadas</h2>
+      <!-- ADICIONADO PARA [CASO DE USO - GERENCIAR CONSULTAS] -->
       <div class="consultas-lista" id="consultasLista">
         <div class="consulta-card">
           <span class="status confirmada">Confirmada</span>
@@ -875,6 +897,8 @@
             <p>Nível de Urgência: Baixo</p>
             <div class="urgency-bar-bg"><div class="urgency-bar low"></div></div>
           </div>
+          <!-- ADICIONADO PARA [CASO DE USO - REAGENDAR CONSULTA (EXTEND)] -->
+          <button onclick="reagendarConsulta(1)" style="margin-top: 10px; padding: 8px 16px; background: var(--secondary); color: white; border: none; border-radius: 8px; cursor: pointer;">Reagendar</button>
         </div>
         <div class="consulta-card">
           <span class="status pendente">Pendente</span>
@@ -886,6 +910,8 @@
             <p>Nível de Urgência: Médio</p>
             <div class="urgency-bar-bg"><div class="urgency-bar medium"></div></div>
           </div>
+          <!-- ADICIONADO PARA [CASO DE USO - REAGENDAR CONSULTA (EXTEND)] -->
+          <button onclick="reagendarConsulta(2)" style="margin-top: 10px; padding: 8px 16px; background: var(--secondary); color: white; border: none; border-radius: 8px; cursor: pointer;">Reagendar</button>
         </div>
         <div class="consulta-card">
           <span class="status confirmada">Confirmada</span>
@@ -1101,7 +1127,56 @@
     </div>
   </div>
 
+  <!-- ADICIONADO PARA [DIAGRAMA DE CLASSES E CASOS DE USO] -->
+  <script src="models.js"></script>
+  <script src="services.js"></script>
+  <script src="init-data.js"></script>
+  
   <script>
+    // ADICIONADO PARA [CASO DE USO - PESQUISAR DISPONIBILIDADE DE DENTISTAS]
+    function pesquisarDisponibilidadeDentistas() {
+      const data = document.getElementById('dataPesquisa').value;
+      const especialidade = document.getElementById('especialidadePesquisa').value;
+      
+      if (!data) {
+        alert('Por favor, selecione uma data para pesquisa.');
+        return;
+      }
+
+      const pacienteService = ServiceFactory.getService(Roles.PACIENTE);
+      const dentistasDisponiveis = pacienteService.pesquisarDisponibilidadeDentistas(data, especialidade);
+      
+      // Exibir resultados (implementação simplificada)
+      console.log('Dentistas disponíveis:', dentistasDisponiveis);
+      alert(`Encontrados ${dentistasDisponiveis.length} dentista(s) disponível(eis) para a data selecionada.`);
+    }
+
+    // ADICIONADO PARA [CASO DE USO - REAGENDAR CONSULTA (EXTEND)]
+    function reagendarConsulta(consultaId) {
+      const novaData = prompt('Digite a nova data (YYYY-MM-DD):');
+      const novaHora = prompt('Digite a nova hora (HH:MM):');
+      
+      if (!novaData || !novaHora) {
+        alert('Data e hora são obrigatórias.');
+        return;
+      }
+
+      const pacienteId = 1; // Em produção, obter do usuário logado
+      const pacienteService = ServiceFactory.getService(Roles.PACIENTE);
+      
+      try {
+        const consulta = pacienteService.reagendarConsulta(pacienteId, consultaId, novaData, novaHora);
+        if (consulta) {
+          alert('Consulta reagendada com sucesso!');
+          window.location.reload();
+        } else {
+          alert('Consulta não encontrada.');
+        }
+      } catch (error) {
+        alert('Erro ao reagendar consulta: ' + error.message);
+      }
+    }
+
     // Funções do Quiz
     function atualizarEstiloCheckbox(checkbox) {
       const label = checkbox.closest('.dia-checkbox-label');
@@ -1220,6 +1295,7 @@
       document.getElementById('btnConfirmarPagamento').disabled = false;
     }
 
+    // ADICIONADO PARA [CASO DE USO - REALIZAR PAGAMENTO]
     // Handler do formulário de pagamento
     document.getElementById('pagamentoForm').addEventListener('submit', function(event) {
       event.preventDefault();
@@ -1232,58 +1308,57 @@
         return;
       }
       
-      // Simula o processamento do pagamento
-      if (metodoPagamento === 'pix') {
-        // Gera código PIX simulado
-        const codigoPix = '00020126360014BR.GOV.BCB.PIX0114+55119999999995204000053039865802BR5913DENTRIX CLINIC6009SAO PAULO62070503***6304' + Math.random().toString(36).substr(2, 4).toUpperCase();
+      // ADICIONADO PARA [CASO DE USO - REALIZAR PAGAMENTO]
+      const pacienteService = ServiceFactory.getService(Roles.PACIENTE);
+      const consultaId = 2; // Em produção, obter da consulta selecionada
+      const valor = 250.00; // Em produção, obter do valor da consulta
+      
+      try {
+        const pagamento = pacienteService.realizarPagamento(consultaId, metodoPagamento, valor);
         
-        // Copia para área de transferência (se possível)
-        if (navigator.clipboard) {
-          navigator.clipboard.writeText(codigoPix).then(() => {
-            alert('✅ Código PIX copiado para a área de transferência!\n\n' + 
-                  'Código: ' + codigoPix + '\n\n' +
-                  'Abra o app do seu banco e cole o código para realizar o pagamento.');
-          }).catch(() => {
+        // Simula o processamento do pagamento
+        if (metodoPagamento === 'pix') {
+          // Gera código PIX simulado
+          const codigoPix = '00020126360014BR.GOV.BCB.PIX0114+55119999999995204000053039865802BR5913DENTRIX CLINIC6009SAO PAULO62070503***6304' + Math.random().toString(36).substr(2, 4).toUpperCase();
+          
+          // Copia para área de transferência (se possível)
+          if (navigator.clipboard) {
+            navigator.clipboard.writeText(codigoPix).then(() => {
+              alert('✅ Código PIX copiado para a área de transferência!\n\n' + 
+                    'Código: ' + codigoPix + '\n\n' +
+                    'Abra o app do seu banco e cole o código para realizar o pagamento.');
+            }).catch(() => {
+              alert('✅ Código PIX gerado!\n\n' + codigoPix + '\n\n' +
+                    'Copie este código e use no app do seu banco para realizar o pagamento.');
+            });
+          } else {
             alert('✅ Código PIX gerado!\n\n' + codigoPix + '\n\n' +
                   'Copie este código e use no app do seu banco para realizar o pagamento.');
-          });
-        } else {
-          alert('✅ Código PIX gerado!\n\n' + codigoPix + '\n\n' +
-                'Copie este código e use no app do seu banco para realizar o pagamento.');
+          }
+        } else if (metodoPagamento === 'boleto') {
+          // Gera código de barras simulado
+          const codigoBarras = '34191' + Math.random().toString().substr(2, 5) + 
+                             '0' + Math.random().toString().substr(2, 10) + 
+                             Math.random().toString().substr(2, 10) + 
+                             Math.random().toString().substr(2, 1);
+          
+          alert('✅ Boleto gerado com sucesso!\n\n' +
+                'Código de barras: ' + codigoBarras + '\n\n' +
+                'O boleto vence em 3 dias úteis. Você pode pagar em qualquer banco ou lotérica.');
         }
-      } else if (metodoPagamento === 'boleto') {
-        // Gera código de barras simulado
-        const codigoBarras = '34191' + Math.random().toString().substr(2, 5) + 
-                           '0' + Math.random().toString().substr(2, 10) + 
-                           Math.random().toString().substr(2, 10) + 
-                           Math.random().toString().substr(2, 1);
         
-        alert('✅ Boleto gerado com sucesso!\n\n' +
-              'Código de barras: ' + codigoBarras + '\n\n' +
-              'O boleto vence em 3 dias úteis. Você pode pagar em qualquer banco ou lotérica.');
+        // Fecha o modal de pagamento
+        document.getElementById('pagamentoModal').classList.remove('active');
+        
+        // Mostra mensagem de sucesso
+        setTimeout(() => {
+          alert('✅ Processo de pagamento iniciado! Verifique as instruções acima.');
+          // Recarrega a página para atualizar a lista de pagamentos
+          window.location.reload();
+        }, 100);
+      } catch (error) {
+        alert('Erro ao processar pagamento: ' + error.message);
       }
-      
-      // Salva informação do pagamento
-      const pagamentoData = {
-        metodo: metodoPagamento,
-        valor: 250.00,
-        data: new Date().toISOString(),
-        status: metodoPagamento === 'pix' ? 'pendente' : 'aguardando'
-      };
-      
-      const pagamentos = JSON.parse(localStorage.getItem('pagamentosPaciente')) || [];
-      pagamentos.push(pagamentoData);
-      localStorage.setItem('pagamentosPaciente', JSON.stringify(pagamentoData));
-      
-      // Fecha o modal de pagamento
-      document.getElementById('pagamentoModal').classList.remove('active');
-      
-      // Mostra mensagem de sucesso
-      setTimeout(() => {
-        alert('✅ Processo de pagamento iniciado! Verifique as instruções acima.');
-        // Recarrega a página para atualizar a lista de pagamentos
-        window.location.reload();
-      }, 100);
     });
 
     function verificarQuiz() {

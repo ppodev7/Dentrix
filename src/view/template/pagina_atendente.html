@@ -225,6 +225,7 @@
       </section>
 
       <!-- Relatório Financeiro -->
+      <!-- ADICIONADO PARA [CASO DE USO - EMITIR RELATÓRIO FINANCEIRO] -->
       <section id="relatorio" class="card relatorio-financeiro">
         <h2>💰 Relatório Financeiro</h2>
         <div class="summary">
@@ -241,7 +242,7 @@
             <p>Pendentes</p>
           </div>
         </div>
-        <button>📊 Gerar Relatório Completo</button>
+        <button onclick="emitirRelatorioFinanceiro()">📊 Gerar Relatório Completo</button>
       </section>
     </div>
 
@@ -309,6 +310,71 @@
     <p><small>Este é um projeto acadêmico fictício.</small></p>
   </footer>
 
+  <!-- ADICIONADO PARA [DIAGRAMA DE CLASSES E CASOS DE USO] -->
+  <script src="models.js"></script>
+  <script src="services.js"></script>
+  <script src="init-data.js"></script>
   <script src="pagina_atendente.js" defer></script>
+
+  <script>
+    // ADICIONADO PARA [CASO DE USO - PROCESSAR PAGAMENTO (PIX/BOLETO)]
+    function processarPagamento(consultaId, metodoPagamento) {
+      const recepcionistaService = ServiceFactory.getService(Roles.RECEPCIONISTA);
+      
+      try {
+        // Buscar pagamento associado à consulta
+        const pagamentos = JSON.parse(localStorage.getItem('pagamentos') || '[]');
+        const pagamento = pagamentos.find(p => p.consultaId === consultaId);
+        
+        if (!pagamento) {
+          alert('Pagamento não encontrado para esta consulta.');
+          return;
+        }
+
+        const pagamentoProcessado = recepcionistaService.processarPagamento(pagamento.id, metodoPagamento);
+        
+        if (pagamentoProcessado.status === 'aprovado') {
+          alert('✅ Pagamento processado com sucesso via ' + metodoPagamento.toUpperCase() + '!');
+        } else if (pagamentoProcessado.status === 'aguardando') {
+          alert('✅ Boleto gerado com sucesso! Vencimento em 3 dias úteis.');
+        }
+        
+        // Atualizar interface
+        window.location.reload();
+      } catch (error) {
+        alert('Erro ao processar pagamento: ' + error.message);
+      }
+    }
+
+    // ADICIONADO PARA [CASO DE USO - EMITIR RELATÓRIO FINANCEIRO]
+    function emitirRelatorioFinanceiro() {
+      const dataInicio = prompt('Data início (YYYY-MM-DD):');
+      const dataFim = prompt('Data fim (YYYY-MM-DD):');
+      const formato = prompt('Formato (pdf ou excel):', 'pdf');
+
+      if (!dataInicio || !dataFim) {
+        alert('Data início e fim são obrigatórias.');
+        return;
+      }
+
+      const recepcionistaService = ServiceFactory.getService(Roles.RECEPCIONISTA);
+      
+      try {
+        const relatorio = recepcionistaService.emitirRelatorioFinanceiro(dataInicio, dataFim, formato);
+        
+        alert(`✅ Relatório financeiro gerado com sucesso!\n\n` +
+              `Total Recebido: R$ ${relatorio.totalRecebido.toFixed(2)}\n` +
+              `Total Pendente: R$ ${relatorio.totalPendente.toFixed(2)}\n` +
+              `Quantidade de Consultas: ${relatorio.quantidadeConsultas}\n` +
+              `Quantidade de Pagamentos: ${relatorio.quantidadePagamentos}\n\n` +
+              `Formato: ${formato.toUpperCase()}`);
+        
+        // Em produção, aqui faria o download do arquivo
+        console.log('Relatório:', relatorio);
+      } catch (error) {
+        alert('Erro ao gerar relatório: ' + error.message);
+      }
+    }
+  </script>
 </body>
 </html>
