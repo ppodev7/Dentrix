@@ -116,35 +116,6 @@ Free HTML CSS Template
                     }
                 });
             };
-
-            // Form submission handler
-            const contactForm = document.querySelector('.contact-form form');
-            if (contactForm) {
-                contactForm.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    alert('Sua mensagem foi enviada com sucesso! Retornaremos em breve.');
-                    e.target.reset();
-                });
-            }
-
-
-             // Função de login para redirecionar usuários com base no email
-            window.handleLogin = function(event) {
-                event.preventDefault();
-                const email = document.getElementById('email').value;
-                const senha = document.getElementById('password').value;
-
-                // Simulação de autenticação (substitua por sua lógica real ou API)
-                if (email === "dentista@exemplo.com" && senha === "1234") {
-                    window.location.href = "pagina_dentista.html";
-                } else if (email === "paciente@exemplo.com" && senha === "1234") {
-                    window.location.href = "pagina_paciente.html";
-                } else if (email === "atendente@exemplo.com" && senha === "1234") {
-        window.location.href = "pagina_atendente.html";
-    }else {
-                    alert("Usuário ou senha incorretos");
-                }
-            };
         });
 
         // Função para alternar entre Login e Cadastro
@@ -168,11 +139,17 @@ function handleLogin(event) {
     const email = document.getElementById('email').value;
     const senha = document.getElementById('password').value;
 
+    // Simulação de autenticação
     if (email === "dentista@exemplo.com" && senha === "1234") {
+        alert("Login efetuado com sucesso");
         window.location.href = "pagina_dentista.html";
     } else if (email === "paciente@exemplo.com" && senha === "1234") {
+        alert("Login efetuado com sucesso");
         window.location.href = "pagina_paciente.html";
-    } else {
+    } else if (email === "atendente@exemplo.com" && senha === "1234") {
+        alert("Login efetuado com sucesso");
+        window.location.href = "pagina_atendente.html";
+    }else {
         alert("Usuário ou senha incorretos");
     }
 }
